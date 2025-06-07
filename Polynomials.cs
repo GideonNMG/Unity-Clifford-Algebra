@@ -7,7 +7,6 @@ namespace MatrixMath
     public  static class Polynomials
     {
 
-
        public static readonly Complex _i = Complex.ImaginaryOne;
 
         public static readonly Complex _xi = new Complex(-1 / 2, Mathf.Sqrt(3) / 2);
@@ -17,11 +16,11 @@ namespace MatrixMath
 
             Complex[] result = new Complex[2];
 
-            Complex disc = Discriminant(a, b, c);
+            Complex r = DiscriminantRoot(a, b, c);
 
-            result[0] = (-b + disc) / 2f * a;
+            result[0] = (-b + r) / 2f * a;
 
-            result[1] = (-b - disc) / 2f * a;
+            result[1] = (-b - r) / 2f * a;
 
             return result;
         }
@@ -33,11 +32,11 @@ namespace MatrixMath
 
             Complex[] zeroes = new Complex[2];
 
-            Complex disc = Discriminant(a, b, c);
+            Complex r = DiscriminantRoot(a, b, c);
 
-            zeroes[0] = (-b + disc) / 2f * a;
+            zeroes[0] = (-b + r) / 2f * a;
 
-            zeroes[1] = (-b - disc) / 2f * a;
+            zeroes[1] = (-b - r) / 2f * a;
 
             Complex result = zeroes[index];
 
@@ -45,7 +44,68 @@ namespace MatrixMath
         }
 
 
-        public static Complex Discriminant(float a, float b, float c)
+        public static float[] RealQuadraticZeroes(float a, float b, float c)
+        {
+            float[] result = new float[2];
+
+            float disc = Discriminant(a, b, c);
+
+            if (CheckRealRoots(a, b, c))
+            {
+
+           
+                float r = Mathf.Sqrt(Discriminant(a, b, c));
+
+                result[0] = (-b + r) / 2f * a;
+
+                result[1] = (-b - r) / 2f * a;
+
+                return result;
+            }
+
+            else
+            {
+
+                Debug.LogWarning("No Real Roots. Returning discriminant.");
+
+                result[0] = disc;
+
+                result[1] = disc;
+
+                return result;
+            }
+
+        }
+
+
+        public static bool CheckRealRoots(float a, float b, float c)
+        {
+            if (Discriminant(a, b, c) >= 0)
+            {
+                return true;
+
+            }
+
+            else
+            {
+
+                return false;
+            }
+
+        }
+
+     
+        public static float Discriminant(float a, float b, float c)
+        {
+
+            float result = (b * b - 4 * a * c);
+
+            return result;
+        }
+
+
+
+        public static Complex DiscriminantRoot(float a, float b, float c)
         {
 
             Complex result = Complex.Sqrt(b * b - 4 * a * c);
@@ -82,6 +142,37 @@ namespace MatrixMath
         }
 
 
+    
+        public static Complex CubeRoot(Complex z)
+        {
+
+            Complex result = Complex.Pow(z, 1 / 3);
+
+            return result;
+        }
+
+
+
+        public static Complex ComplexCubeRoot(float a)
+        {
+
+            Complex z = MakeFloatComplex(a);
+
+            Complex result = Complex.Pow(z, 1 / 3);
+
+            return result;
+        }
+
+
+        public static Complex MakeFloatComplex(float a)
+        {
+
+            Complex result = new Complex(a, 0);
+
+            return result;
+        }
+
+
         public static Complex[] CubicZeroes(float a, float b, float c, float d)
         {
 
@@ -114,7 +205,6 @@ namespace MatrixMath
           
         }
 
-     
     }
 
 }
