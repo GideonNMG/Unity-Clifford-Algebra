@@ -138,15 +138,9 @@ namespace MatrixMath
 
             return RecursiveDet(matrix);
 
-        }
-
-
-
-        
+        }      
 
     }
-
-
 
 }
 

@@ -7,22 +7,36 @@ namespace MatrixMath
     public static class Matrices
     {
 
+        // a_00   a_01      b_00     a_00 * b_00 + a_01 * b_10
+
+
+        // a_10   a_11      b_10     a_10 * b_00 + a_11 * b_10
+
+
+        // a_20  a_21                a_20 * b_00 + a_21 * b_10
+
+
+
 
         public static float[,] MatrixProduct(float[,] a, float[,] b)
         {
 
-            int n = a.GetLength(1);
+            int n = a.GetLength(0);
+
+            int m = a.GetLength(1);
+
+            int p = b.GetLength(1);
 
 
-            float[,] result = new float[n, n];
+            float[,] result = new float[n, p];
 
             for (int i = 0; i < n; i++)
             {
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < p; j++)
                 {
                     float[] t = new float[n];
 
-                    for (int k = 0; k < n; k++)
+                    for (int k = 0; k < m; k++)
                     {
 
                         if (k == 0)
@@ -40,7 +54,7 @@ namespace MatrixMath
 
                     }
 
-                    result[i, j] = t[n - 1];
+                    result[i, j] = t[m - 1];
 
                 }
 
