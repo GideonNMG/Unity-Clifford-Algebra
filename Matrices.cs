@@ -7,14 +7,6 @@ namespace MatrixMath
     public static class Matrices
     {
 
-        // a_00   a_01      b_00     a_00 * b_00 + a_01 * b_10
-
-
-        // a_10   a_11      b_10     a_10 * b_00 + a_11 * b_10
-
-
-        // a_20  a_21                a_20 * b_00 + a_21 * b_10
-
 
 
 
@@ -104,6 +96,22 @@ namespace MatrixMath
 
         // This is a "cheat" in that we can use a (1D) array to represent a diagonal matrix and this finds the "trace" of such a "matrix."
         public static float Trace(float[] array)
+        {
+            int n = array.GetLength(0);
+
+            float result = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+
+                result += array[i];
+            }
+
+            return result;
+        }
+
+
+        public static float Trace(int[] array)
         {
             int n = array.GetLength(0);
 

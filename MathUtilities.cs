@@ -61,7 +61,7 @@ namespace MatrixMath
             else if (s == 0)
             {
 
-                return Factorial(r);
+                return 1;
             }
 
 
@@ -70,7 +70,7 @@ namespace MatrixMath
 
                 int top = 1;
 
-                for (int i = s; i <= r; i++)
+                for (int i = r -s +1; i <= r; i++)
                 {
 
                     top *= i;
@@ -114,6 +114,37 @@ namespace MatrixMath
 
         }
 
+        public static int PermutationSign(int[] permutation, int[] target)
+        {
+
+            int swaps = 0;
+
+            int n = permutation.Length;
+
+            for (int i = 0; i < n; i++)
+            {
+
+                if (permutation[i] != target[i])
+                {
+
+                    // Swap the element with the element at its correct position
+
+                    int temp = permutation[i];
+
+                    int k = (permutation[i] - 1) % n;
+
+                    permutation[i] = permutation[k];
+
+                    permutation[k] = temp;
+
+                    swaps++;
+                }
+
+            }
+
+            return (int)Mathf.Pow(-1f, (swaps % 2));
+
+        }
 
 
         public static int PermutationSign(int[] permutation, int start)
@@ -134,59 +165,6 @@ namespace MatrixMath
                 val++;
 
             }
-
-            if (target.Length != L)
-            {
-
-                Debug.LogWarning("Target array length does not match into array length. Returning 0.");
-                return 0;
-
-            }
-
-            int match = 0;
-
-            for (int i = 0; i < L; i++)
-            {
-
-                if (permutation[i] != target[i])
-                {
-
-                    for (int j = 0; j < L; j++)
-                    {
-                        if (target[j] == permutation[i])
-                        {
-                            match = j;
-                            break;
-
-                        }
-
-                    }
-                    // Swap the element with the element at its correct position
-
-                    int temp = permutation[i];
-
-                    permutation[i] = target[i];
-
-                    permutation[match] = temp;
-
-                    swaps++;
-
-                }
-
-            }
-
-            return (int)Mathf.Pow(-1f, (swaps % 2));
-
-        }
-
-
-
-        public static int PermutationSign(int[] permutation, int[] target)
-        {
-
-            int swaps = 0;
-
-            int L = permutation.Length;
 
             if (target.Length != L)
             {
@@ -422,8 +400,7 @@ namespace MatrixMath
 
         }
 
-       
-       
+             
 
     }
 

@@ -24,7 +24,10 @@ namespace MatrixMath
 
             GeneralizedLorentzianNegativeFirst,
 
+            Diagonal,
+
             Other
+
         };
 
 
@@ -103,6 +106,14 @@ namespace MatrixMath
         {
 
             return Metric(n, 1, metricType);
+
+        }
+
+
+        public static float[,] Metric(float[] eigenValues)
+        {
+
+            return DiagonalMetric( eigenValues);
 
         }
 
@@ -368,7 +379,7 @@ namespace MatrixMath
         }
 
 
-        public static float MetricDistance(float[] left, float[] right, MetricType metricType)
+        public static float MetricProduct(float[] left, float[] right, MetricType metricType)
         {
             int n = left.Length;
 
@@ -409,6 +420,13 @@ namespace MatrixMath
 
             }
 
+        }
+
+
+        public static float MetricDistanceSquared(float[] vect, MetricType metricType)
+        {
+
+            return MetricProduct(vect, vect, metricType);
         }
 
 
