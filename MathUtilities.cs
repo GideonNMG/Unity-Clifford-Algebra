@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 
+
 namespace MatrixMath
 {
 
@@ -40,7 +41,6 @@ namespace MatrixMath
             }
 
         }
-
 
 
         public static int BinomialCoefficient(int n, int m)
@@ -84,6 +84,22 @@ namespace MatrixMath
 
         }
 
+
+        public static int[] BinomialCoefficients(int n)
+        {
+
+            int[] result = new int[n + 1];
+          
+
+                for(int i = 0; i < n + 1; i++)
+                {
+                result[i] = BinomialCoefficient(n, i);
+
+                }
+
+            return result;
+           
+        }
 
 
         public static int PermutationSign(int[] permutation)
@@ -145,6 +161,7 @@ namespace MatrixMath
             return (int)Mathf.Pow(-1f, (swaps % 2));
 
         }
+
 
 
         public static int PermutationSign(int[] permutation, int start)
@@ -211,6 +228,7 @@ namespace MatrixMath
         }
 
 
+    
 
 
         public static int LeviCivita(int[] indices)
@@ -220,7 +238,7 @@ namespace MatrixMath
 
             int[] permTarget = new int[n];
             // Check for repeated indices and set permTaget = indices.
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n-1; i++)
             {
                 for (int j = i + 1; j < n; j++)
                 {
@@ -230,25 +248,100 @@ namespace MatrixMath
                     }
                 }
 
-                permTarget[i] = indices[i];
+                //permTarget[i] = indices[i];
 
 
             }
 
+            //return CheckCyclic(indices);
+
+           
             // Use Array.Sort to sort the integers in parmTarget from low to high.          
 
             Array.Sort(permTarget);
 
             // Use PermutationSign to get the sign of the permutaion of "indices" relative to the sorted "permTarget."
 
-            return PermutationSign(indices, permTarget);
+            return PermutationSign(indices, permTarget);      
 
         }
 
-       
-     
 
-        public static bool OddPerm(int i, int j)
+        public static int Parity(int[] indices)
+        {
+            //Get number of indices 
+            int n = indices.Length;
+
+
+            // Check for repeated indices and set permTaget = indices.
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (indices[i] == indices[j])
+                    {
+                        return 0;
+                    }
+                }
+
+
+            }
+
+            return CheckCyclic(indices);
+
+        }
+
+
+
+        public static int Parity(int[] indices, int start)
+        {
+            //Get number of indices 
+            int n = indices.Length;
+
+
+            // Check for repeated indices and set permTaget = indices.
+            for (int i = start; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (indices[i] == indices[j])
+                    {
+                        return 0;
+                    }
+                }
+
+
+            }
+
+            return CheckCyclic(indices);
+
+        }
+
+   
+        public static int CheckCyclic(int[] indices)
+        {
+
+            int n = indices.Length;
+
+            int parity = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+
+                if (AntiCyclic(indices[i - 1], indices[i]))
+                {
+                    parity++;
+
+                }
+            }
+
+            return (int)Mathf.Pow(-1, (parity) % 2);
+
+        }
+
+
+
+        public static bool AntiCyclic(int i, int j)
         {
 
 
@@ -258,7 +351,7 @@ namespace MatrixMath
 
             //if ((j < i) && (((i - j) % 2) == 1) || j > i && (j - i) % 2 == 0)
 
-            if (j < i && j - i % 2 == 1)
+            if (j < i && i-j % 2 == 1)
             {
                 firstCondition = true;
             }
@@ -302,7 +395,7 @@ namespace MatrixMath
 
                     for (int j = 1; j < l; j++)
                     {
-                        if (u[j] != 0 && OddPerm(i, j))
+                        if (u[j] != 0 && AntiCyclic(i, j))
                         {
                             result++;
 
@@ -335,7 +428,7 @@ namespace MatrixMath
 
                     for (int j = 1; j < l; j++)
                     {
-                        if (u[j] != 0 && OddPerm(i, j))
+                        if (u[j] != 0 && AntiCyclic(i, j))
                         {
                             result++;
 
@@ -380,7 +473,7 @@ namespace MatrixMath
                 {
                     for (int j = startIndex; j < l; j++)
                     {
-                        if (v[j] != 0 && OddPerm(i, j))
+                        if (v[j] != 0 && AntiCyclic(i, j))
                         {
                             result++;
 
@@ -397,10 +490,8 @@ namespace MatrixMath
 
             return sign;
 
-
         }
-
-             
+           
 
     }
 
