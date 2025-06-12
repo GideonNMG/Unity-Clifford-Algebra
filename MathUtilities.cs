@@ -163,7 +163,7 @@ namespace MatrixMath
             return result;
         }
 
-        public static int DescendingSum(int n, int m)
+        public static int DescendingSum(int n, int m)  // == BinomialCoefficient(n+1, m+1)
         {
 
             int max = (int)Mathf.Max(n, m);
