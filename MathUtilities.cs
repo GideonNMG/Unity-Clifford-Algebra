@@ -101,6 +101,80 @@ namespace MatrixMath
            
         }
 
+        public static int BinomialPartialSum(int n, int m)
+        {
+
+            int[] binomial = MathUtilities.BinomialCoefficients(n);
+
+            int result = 0;
+            for (int i = 0; i < m+1; i++)
+            {
+                result += binomial[i];
+
+            }
+
+            return result;
+        }
+
+
+        /*   4  1
+         * 
+         *   3  1
+         * 
+         *   2  1
+         *   
+         *   1  1
+         */
+
+
+        public static int[] DescendingBinomial(int n, int k)
+        {
+            int M = (int)Mathf.Max(n, k);
+
+            int m = (int)Mathf.Min(n, k);
+
+            int[] result = new int[M + 1 -m];
+
+
+
+            for (int i = 0; i < M + 1 -m; i++)
+            {
+              
+                result[i] = BinomialCoefficient(M -i, m);
+                
+            }
+
+            return result;
+
+        }
+
+
+        public static int DescendingPartialSum(int n, int m, int k)
+        {
+            int result = 0;
+            int[] db = DescendingBinomial(n, m);
+
+            for (int i = 0; i < k + 1; i++)
+            {
+                result += db[i];
+
+            }
+
+            return result;
+        }
+
+        public static int DescendingSum(int n, int m)
+        {
+
+            int max = (int)Mathf.Max(n, m);
+
+            int min = (int)Mathf.Min(n, m);
+
+
+            return DescendingPartialSum(max, min, max-min);
+        }
+
+
 
         public static int PermutationSign(int[] permutation)
         {

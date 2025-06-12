@@ -8,14 +8,70 @@ namespace Clifford.Algebra
 {
     public static class BladeUtilities
     {
-      
+
+
+
+        public static int Grade(Blade blade)
+        {
+
+            return (int)Matrices.Trace(blade.basis) - 1;
+        }
+
+        public static int Grade(float[] basis)
+        {
+
+            return (int)Matrices.Trace(basis) - 1;
+        }
+
+
+        public static int GradeFromIndex(int index, int n)
+        {
+            //example for n == 3
+
+            //index    binomial[i]   i = grade
+
+            //0           1          0
+
+            //1 2 3       3          1
+
+            //4, 5, 6     3          2
+
+            //7           1          3
+
+
+            int[] binomial = new int[n + 1];
+
+            binomial = MathUtilities.BinomialCoefficients(n);
+
+            int result = 0;
+
+            int lower = 0;
+
+            int upper = 0;
+
+            for (int i = 0; i < n + 1; i++)
+            {
+                upper += binomial[i];
+                if (index >= lower && index < upper)
+                {
+
+                    result = i;
+                }
+                lower += binomial[i];
+            }
+
+            return result;
+
+        }
+
+
         public static int[] BladeIndices(float[] b)
         {
 
 
             int n = b.Length;
 
-            int grade = BladeIndex.Grade(b);
+            int grade = Grade(b);
 
 
             List<int> indecies = new List<int>();

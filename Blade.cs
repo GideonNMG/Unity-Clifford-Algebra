@@ -10,7 +10,7 @@ namespace Clifford.Algebra
 
         public int n; //  spaceDimension;
 
-        public int d; // algebra dimesnion; 
+        public int d; // algebra dimension;
 
         public int index;
 
@@ -24,11 +24,11 @@ namespace Clifford.Algebra
 
             this.n = basis.Length - 1;
 
-            this.basis = BladeIndex.Mod2Array(basis);
+            this.basis = ArrayUtilities.Mod2Array(basis);
 
             this.index = BladeIndex.Index(basis);
 
-            this.grade = BladeIndex.Grade(basis);
+            this.grade = BladeUtilities.Grade(basis);
 
             this.d = (int)Mathf.Pow(2, (float)n);
         }

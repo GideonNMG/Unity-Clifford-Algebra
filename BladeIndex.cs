@@ -16,92 +16,361 @@ namespace Clifford.Algebra
         public static int r;
 
 
-        public static float[] Mod2Array(float[] array)
+
+        /*
+        public static float[] BasisFromGradeAndIndex(int grade, int index, int n)
         {
-            int n = array.Length;
 
-            float[] result = new float[n];
 
-            for(int i = 0; i < n; i++)
+        }
+        */
+
+  
+
+        public static float[] BasisFromIndex(int index, int n)
+        {
+
+            /*
+            example n = 4
+
+            basis   grade 
+
+            1       0    10000
+
+            4       1    11000  10100 10010  10001 
+
+            6       2    11100  11010 11001 10110 10101 10011
+                          12     1 3   1  4   23    2  4   34
+
+            4       3    11110  11101 11011 10111
+
+            1       4    11111
+
+
+            */
+
+       
+
+            float[] basis = new float[n + 1];
+
+            basis[0] = 1;
+
+            int[] binomial = MathUtilities.BinomialCoefficients(n);
+
+
+            int grade = BladeUtilities.GradeFromIndex(index, n);
+
+            basis = ArrayUtilities.SetAllZero(n + 1, 1);
+
+
+            if (grade == 0)
             {
 
-                result[i] = (array[i]) % 2;
+                return basis;
             }
 
+            else
+            {
+                index = index + 1 - PS(n, grade - 1);
+            }
 
-            return result;
+          
+            /*
+            example n = 5
 
-        }
+            basis   grade 
+  
+              1        0    100000
 
+              5        1    110000  101000 100100  100010 100001 
 
-        public static int Grade(Blade blade)
-        {
+              10       2    111000  110100 110010 110001 101100 101010 101001 100110 100101 100011
+                            6        7      8     9       10     11     12     13     14      15
 
-            return (int)Matrices.Trace(blade.basis) - 1;
-        }
+                            1        2      3     4       5      6      7      8      9       10 
 
-        public static int Grade(float[] basis)
-        {
+              10       3    111100  111010  111001  110110  110101  110011  1011100 1011010  1011001 100111
+                            1       2       3       4       5       6       7        8         9      10   
 
-            return (int)Matrices.Trace(basis) - 1;
-        }
+              5        4    111110  111101  111011  110111  101111
 
-
-        public static int GradeFromIndex(int index, int n)
-        {
-            //example for n == 3
-
-            //index    binomial[i]   i = grade
-
-            //0           1          0
-
-            //1 2 3       3          1
-
-            //4, 5, 6     3          2
-
-            //7           1          3
+              1        5    111111
+    
+             */
 
 
-            int[] binomial = new int[n + 1];
 
-            binomial = MathUtilities.BinomialCoefficients(n);
 
-            int result = 0;
 
-            int lower = 0;
 
-            int upper = 0;
+            if (grade == 1)
+            {
+             
 
-            for(int i = 0; i < n + 1; i++)
-            {            
-                upper += binomial[i];
-                if(index >= lower && index < upper)
+                basis[index] = 1;
+
+            }
+
+            if(grade == 2)
+            {
+            
+
+                if ( index <= DPS(n -1, grade -1, 0))
                 {
 
-                    result = i;
+                    basis[1] = 1;
+                    basis[index + 1] = 1;
+
                 }
-                lower += binomial[i];              
+
+
+                if(index > DPS(n -1, grade - 1, 0) && index <= DPS(n -1, grade - 1, 1))
+                {
+                    basis[1] = 0;
+                    basis[2] = 1;
+                    basis[index + 2 - (DPS(n-1, grade - 1,0))] = 1;
+
+                }
+
+                if(index > DPS(n-1, grade - 1,1) && index<=  DPS(n-1, grade-1,2))
+                {
+
+                    basis[1] = 0;
+                    basis[2] = 0;
+                    basis[3] = 1;
+                    basis[index + 3 - (DPS(n - 1, grade - 1, 1))] = 1;
+
+
+                }
+
+                if(index> DPS(n - 1, grade - 1, 2) && index < DPS(n - 1, grade - 1, 3))
+                {
+                    basis[1] = 0;
+                    basis[2] = 0;
+                    basis[3] = 0;
+                    basis[4] = 0;
+                    basis[index + 4 - (DPS(n - 1, grade - 1, 2))] = 1;
+                }
+
             }
 
-            return result;
+
+
+
+            if(grade == 3)
+            {
+               if(index < DPS(n-1, grade - 1, 0))
+                {
+                    basis[1] = 1;
+
+                  if(index < DPS(n-2, grade - 2, 0))
+                    {
+
+                        basis[2] = 1;
+                        basis[index + 2] = 1;
+
+
+
+
+
+                    }
+
+
+                   
+                }
+
+            }
+
+
+            if(grade == n - 2)
+            {
+
+
+            }
+
+
+            if(grade == n - 1)
+            {
+                basis = ArrayUtilities.SetAllOne(n + 1);
+
+                basis[binomial[n-1] - (index +1 - (MathUtilities.BinomialPartialSum(n, n - 2)))] = 0;
+
+            }
+
+
+            if(grade == n)
+            {
+
+                basis = ArrayUtilities.SetAllOne(n + 1);
+            }
+
+
+            /*
+
+            if (grade == 0)
+            {
+                if(index < BC(n, grade))
+                {
+
+                    basis[0] = 1;
+                }
+
+            }
+
+            if(grade == 1)
+            {
+
+            
+
+                if(index >= BC(n, grade -1) && index < binomial[0] + binomial[1])
+
+                basis[index] = 1;
+            }
+
+            */
+            /*
+            if(grade ==2)
+            {
+
+                if(index < binomial[0] + binomial[1] + BC(n-1, grade -1))
+                {
+                    basis[1] = 1;
+
+                    basis[index + 1 - BC(n, grade - 1)] = 1;
+
+                }
+
+                if(index >= binomial[0] + binomial[1] + BC(n - 1, grade - 1) && index < binomial[0] + binomial[1] + BC(n - 1, grade - 1) + BC(n - 1, grade))
+                {
+
+                    basis[2] = 1;
+
+                    basis[index + 1 - (BC(n, 1) + BC(n - 1, grade - 1))] = 1;
+                }
+
+            }
+            */
+
+            /*
+            if (grade == 2)
+            {
+                if(index < BC(n, grade-1) + BC(n - 1, grade - 1))
+                {
+
+                    basis[1] = 1;
+
+                    basis[index + 1 - BC(n, grade - 1)] = 1;
+                }
+
+                if(index >= BC(n, grade - 1) + BC(n - 1, grade - 1) && index < BC(n, grade - 1) + BC(n - 1, grade - 1) + BC(n-1, grade))
+                {
+                    basis[2] = 1;
+
+                    basis[index + 1 - (BC(n, 1) + BC(n - 1, grade - 1))] = 1;
+
+                }
+
+                if(index >= BC(n, grade - 1) + BC(n - 1, grade - 1) + BC(n - 1, grade) && index < BC(n, grade - 1) + BC(n - 1, grade - 1) + BC(n - 1, grade) + BC(n-2,grade) )
+                {
+                    basis[3] = 1;
+
+                    basis[index + 1 - (BC(n, 1) + BC(n - 1, grade - 1) + BC(n - 1, grade))] = 1;
+
+                }
+
+            }
+
+
+
+             */
+
+            /*
+            if (grade == 3)
+            {
+                if(index < binomial[0] + binomial[1] + binomial[3] + BC(n-1, grade -1))
+                {
+                    basis[1] = 1;
+
+                }
+
+            }
+
+            */
+            return basis;
 
         }
+
 
 
         public static Blade BladeFromIndex(int index, int n)
         {
+            /*
+            example n = 4
+
+            basis   grade 
+
+            1       0    10000
+
+            4       1    11000  10100 10010  10001 
+
+            6       2    11100  11010 11001 10110 10101 10011
+                          12     1 3   1  4   23    2  4   34
+
+            4       3    11110  11101 11011 10111
+
+            1       4    11111
+            
+
+            */
+
             float[] basis = new float[n + 1];
 
             int[] bcs = MathUtilities.BinomialCoefficients(n);
 
 
-            Blade blade = new Blade(basis);
+            int grade = BladeUtilities.GradeFromIndex(index, n);
 
             basis[0] = 1;
 
             int m = n;
 
             int g = 0; //grade
+
+
+            if(grade == 0)
+            {
+                basis[0] = 1;
+
+            }
+
+
+            if(grade == 1)
+            {
+
+                basis[index] = 1;
+            }
+
+            if(grade == 2)
+            {
+                if(index < BC(n,grade-1) + BC(n - 1, grade - 1))
+                    {
+                    basis[1] = 1;
+
+                    basis[index + 1 - n] = 1;
+
+                    }
+
+
+                if(index >= BC(n,grade-1) + BC(n - 1, grade - 1) && index < BC(n, grade-1) + BC(n - 1, grade - 1) + BC(n - 1, grade))
+                {
+
+                    basis[2] = 1;
+
+                    basis[index + 1 - (BC(n, 1) + BC(n - 1, grade - 1))] = 1;
+
+                }
+
+            }
 
 
             //grade 0
@@ -160,11 +429,8 @@ namespace Clifford.Algebra
 
 
                 }
-                    
-
 
             }
-
 
             if (MathUtilities.BinomialCoefficient(n, 2) > n && index <= MathUtilities.BinomialCoefficient(n, 3))
             {
@@ -176,13 +442,12 @@ namespace Clifford.Algebra
 
             }
 
-          
+            Blade blade = new Blade(basis);
 
             return blade;
 
-
-
         }
+
 
         public static int Index(Blade blade)
         {
@@ -206,7 +471,7 @@ namespace Clifford.Algebra
 
             q = array.Length;  // == slots left
 
-            r = Grade(array); // == ones left
+            r = BladeUtilities.Grade(array); // == ones left
 
             Checki(array, l);
 
@@ -234,9 +499,10 @@ namespace Clifford.Algebra
 
         }
 
+
+
         private static void ArrayiOne(float[] array)
         {
-
 
             q--;
 
@@ -287,7 +553,7 @@ namespace Clifford.Algebra
             
         }
 
-
+       
         private static int BC(int i, int j)
         {
        
@@ -296,12 +562,19 @@ namespace Clifford.Algebra
 
         }
 
-      
+        private static int PS(int n, int m)
+        {
+            return MathUtilities.BinomialPartialSum(n, m);
+        }
+
+        private static int DPS(int n, int m, int j)
+        {
+
+            return MathUtilities.DescendingPartialSum(n, m, j);
+
+        }
 
 
     }
-      
-
-
 
 }
