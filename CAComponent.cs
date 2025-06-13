@@ -1,16 +1,24 @@
 using UnityEngine;
 
-public class CAComponent : MonoBehaviour
+
+namespace Clifford.Algebra
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public struct CAComponent
     {
-        
+        public Blade blade;
+
+        public float scalar;
+
+
+        public CAComponent(Blade blade, float c)
+        {
+            this.scalar = c;
+
+            this.blade = blade;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
+

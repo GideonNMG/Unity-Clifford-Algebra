@@ -9,7 +9,7 @@ namespace MatrixMath
         public static bool XorValue(float a, float b, float x)
         {
 
-            if (a == x && b != x)
+            if ((a == x && b != x) || (a!=x && b==x))
             {
 
                 return true;
@@ -28,7 +28,7 @@ namespace MatrixMath
         public static bool XorValue(float[] a, float[] b, int i, float x)
         {
 
-            if (a[i] == x && b[i] != x)
+            if ((a[i] == x && b[i] != x) || (a[i] != x && b[i] == x))
             {
 
                 return true;
