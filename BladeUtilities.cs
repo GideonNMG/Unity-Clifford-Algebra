@@ -11,7 +11,6 @@ namespace Clifford.Algebra
     {
 
 
-
         public static int Grade(Blade blade)
         {
 
@@ -119,6 +118,31 @@ namespace Clifford.Algebra
         }
 
 
+        public static int[] BladeDualIndices(float[] left, float[] right)
+        {
+            int[] leftIndecies = BladeIndices(left);
+
+            int[] rightInecies = BladeIndices(right);
+
+            int[] result = leftIndecies.Concat(rightInecies).ToArray();
+
+            return result;
+
+        }
+
+        public static int[] BladeDualIndices(Blade left, Blade right)
+        {
+            int[] leftIndecies = BladeIndices(left);
+
+            int[] rightInecies = BladeIndices(right);
+
+            int[] result = leftIndecies.Concat(rightInecies).ToArray();
+
+            return result;
+
+        }
+
+
 
         public static int BladeParity(float[] b)
         {
@@ -142,12 +166,12 @@ namespace Clifford.Algebra
         public static int ReverseBladeParity(Blade blade)
         {
 
-
             float[] b = ReverseBlade(blade).basis;
 
             return MathUtilities.Parity(BladeIndices(b));
 
         }
+
 
 
         public static int BladeProductParity(Blade left, Blade right)
@@ -192,6 +216,7 @@ namespace Clifford.Algebra
             return (int)Mathf.Pow(-1, k);
 
         }
+
 
 
         public static float[] Reversion(float[] b)
@@ -259,7 +284,16 @@ namespace Clifford.Algebra
             return result;
         }
 
-      
+
+
+        public static Blade DualBlade(Blade blade)
+        {
+
+            Blade result = new Blade(Dual(blade.basis));
+
+            return result;
+
+        }
 
     }
 
