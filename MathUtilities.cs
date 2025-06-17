@@ -361,7 +361,7 @@ namespace MatrixMath
 
             }
 
-            return CheckCyclic(indices);
+            return CheckPermutation(indices);
 
         }
 
@@ -387,12 +387,12 @@ namespace MatrixMath
 
             }
 
-            return CheckCyclic(indices);
+            return CheckPermutation(indices);
 
         }
 
    
-        public static int CheckCyclic(int[] indices)
+        public static int CheckPermutation(int[] indices)
         {
 
             int n = indices.Length;
@@ -402,7 +402,7 @@ namespace MatrixMath
             for (int i = 0; i < n; i++)
             {
 
-                if (AntiCyclic(indices[i - 1], indices[i]))
+                if (OddPermutation(indices[i - 1], indices[i]))
                 {
                     parity++;
 
@@ -415,7 +415,7 @@ namespace MatrixMath
 
 
 
-        public static bool AntiCyclic(int i, int j)
+        public static bool OddPermutation(int i, int j)
         {
 
 
@@ -431,7 +431,7 @@ namespace MatrixMath
             }
            
 
-            if (j > i && (j - i) % 2 == 0)
+            if (i < j && (j - i) % 2 == 0)
             {
                 secondCondition = true;
 
@@ -469,7 +469,7 @@ namespace MatrixMath
 
                     for (int j = 1; j < l; j++)
                     {
-                        if (u[j] != 0 && AntiCyclic(i, j))
+                        if (u[j] != 0 && OddPermutation(i, j))
                         {
                             result++;
 
@@ -502,7 +502,7 @@ namespace MatrixMath
 
                     for (int j = 1; j < l; j++)
                     {
-                        if (u[j] != 0 && AntiCyclic(i, j))
+                        if (u[j] != 0 && OddPermutation(i, j))
                         {
                             result++;
 
@@ -547,7 +547,7 @@ namespace MatrixMath
                 {
                     for (int j = startIndex; j < l; j++)
                     {
-                        if (v[j] != 0 && AntiCyclic(i, j))
+                        if (v[j] != 0 && OddPermutation(i, j))
                         {
                             result++;
 

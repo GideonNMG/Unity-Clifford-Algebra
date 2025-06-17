@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MatrixMath;
 
 namespace Clifford.Algebra
@@ -65,6 +66,7 @@ namespace Clifford.Algebra
         }
 
 
+
         public static int[] BladeIndices(float[] b)
         {
 
@@ -84,6 +86,7 @@ namespace Clifford.Algebra
 
                     indecies.Add(i);
                 }
+             
             }
 
 
@@ -92,12 +95,101 @@ namespace Clifford.Algebra
             return result;
         }
 
+        public static int[] BladeIndices(Blade blade)
+        {
+
+            float[] b = blade.basis;
+
+            return BladeIndices(b);
+
+        }
+     
+
+      
+        public static int[] BladeProductIndices(Blade left, Blade right)
+        {
+            int[] leftIndecies = BladeIndices(left);
+
+            int[] rightInecies = BladeIndices(ReverseBlade(right));
+
+            int[] result = leftIndecies.Concat(rightInecies).ToArray();
+
+            return result;
+
+        }
+
 
 
         public static int BladeParity(float[] b)
         {
 
             return MathUtilities.Parity(BladeIndices(b));
+
+        }
+
+
+        public static int BladeParity(Blade blade)
+        {
+
+
+            float[] b = blade.basis;
+
+            return MathUtilities.Parity(BladeIndices(b));
+
+        }
+
+
+        public static int ReverseBladeParity(Blade blade)
+        {
+
+
+            float[] b = ReverseBlade(blade).basis;
+
+            return MathUtilities.Parity(BladeIndices(b));
+
+        }
+
+
+        public static int BladeProductParity(Blade left, Blade right)
+        {
+
+            int[] bPI = BladeProductIndices(left, right);
+
+            int n = bPI.Length;
+
+            int k = 0;
+
+            for(int i = 0; i< n - 1; i++)
+            {
+
+                for(int j =i +1; j < n; j++)
+                {
+                    if (bPI[i] == bPI[j])
+                    {
+                        if(j == i + 1)
+                        {
+                            break;
+                        }
+
+                        else
+                        {
+                            bPI[j] = bPI[i+1];
+
+                            bPI[i + 1] = bPI[i];
+                            if (MathUtilities.OddPermutation(i, j))
+                                {
+
+                                 k++;
+
+                                }
+
+                        }
+                    }
+
+                }
+            }
+
+            return (int)Mathf.Pow(-1, k);
 
         }
 

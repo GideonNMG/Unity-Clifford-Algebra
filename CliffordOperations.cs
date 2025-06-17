@@ -17,7 +17,15 @@ namespace Clifford.Algebra
 
             float scalar = 1f;
 
+            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.ReverseBladeParity(right);
+
+            float productParity = (float)BladeUtilities.BladeProductParity(left, right);
+
             scalar *= left.basis[0] * BladeUtilities.ReversionFactor(right.basis) * right.basis[0];
+
+            scalar *= parity;
+
+            scalar *= productParity;
 
             for (int i = 1; i<= n+1; i++)
             {
@@ -50,6 +58,7 @@ namespace Clifford.Algebra
             return result;
 
         }
+
 
 
         public static CAComponent ComponentProduct(CAComponent left, CAComponent right, Metric metric)
