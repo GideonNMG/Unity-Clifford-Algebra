@@ -135,6 +135,22 @@ namespace Clifford.Algebra
         }
 
 
+        public override bool Equals(object term)
+        {
+            if (term == null)
+            {
+                return false;
+            }
+
+            var t = (Term)term;
+            return (scalar == t.scalar && Blade.BladeEquality(blade, t.blade));
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
 
         public static bool TermEquality(Term first, Term second)
         {
@@ -164,7 +180,6 @@ namespace Clifford.Algebra
             return !TermEquality(first, second);
 
         }
-
 
 
         public static Term operator * (Term first, Term second) =>

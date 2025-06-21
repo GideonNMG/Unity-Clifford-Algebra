@@ -19,10 +19,8 @@ namespace ComplexNumbers
             this.imaginary = im;
 
             this.array = new float[2] { real, imaginary};
-           
-         
+                
         }
-
 
         public static ComplexNumber operator +(ComplexNumber operand) => operand;
 
@@ -33,7 +31,7 @@ namespace ComplexNumbers
          new ComplexNumber(z.real + c, z.imaginary );
 
         public static ComplexNumber operator +(float c, ComplexNumber z) =>
-   new ComplexNumber(z.real + c, z.imaginary);
+        new ComplexNumber(z.real + c, z.imaginary);
 
 
         public static ComplexNumber operator - (ComplexNumber operand) => operand;
@@ -42,27 +40,29 @@ namespace ComplexNumbers
             new ComplexNumber(first.real - second.real, first.imaginary - second.imaginary);
 
         public static ComplexNumber operator *(ComplexNumber first, ComplexNumber second) =>
-    new ComplexNumber(first.real * second.real - first.imaginary * second.imaginary, first.real * second.imaginary + second.real * first.imaginary);
+        new ComplexNumber(first.real * second.real - first.imaginary * second.imaginary,
+        first.real * second.imaginary + second.real * first.imaginary);
 
         public static ComplexNumber operator * (ComplexNumber z, float  c) =>
-new ComplexNumber(z.real * c ,  z.imaginary * c);
+        new ComplexNumber(z.real * c ,  z.imaginary * c);
 
         public static ComplexNumber operator *(float c, ComplexNumber z) =>
-new ComplexNumber(z.real * c, z.imaginary * c);
+        new ComplexNumber(z.real * c, z.imaginary * c);
 
         public static ComplexNumber operator *(int i, ComplexNumber z) =>
-new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
+        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
 
 
         public static ComplexNumber operator *(ComplexNumber z, int i) =>
-new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
+        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
 
 
 
         public static ComplexNumber operator /(ComplexNumber top, ComplexNumber bottom) =>
        
   
-    new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugate(bottom)).imaginary / Norm(bottom));
+        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
+        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
 
 
         public static ComplexNumber operator /(ComplexNumber z, float c) =>
@@ -73,10 +73,55 @@ new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
         public static ComplexNumber operator /(float top, ComplexNumber bottom) =>
 
 
-new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugate(bottom)).imaginary / Norm(bottom));
+        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
+        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
 
 
+        public override bool Equals(object number)
+        {
+            if (number == null)
+            {
+                return false;
+            }
 
+            var z = (ComplexNumber)number;
+            return (real == z.real && imaginary == z.imaginary);
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+
+        public static bool ComplexEquality(ComplexNumber z1, ComplexNumber z2)
+        {
+            if(z1.real == z2.real && z1.imaginary == z2.imaginary)
+            {
+
+                return true;
+            }
+
+            else
+            {
+
+                return false;
+            }
+
+        }
+   
+
+        public static bool operator ==(ComplexNumber first, ComplexNumber second)
+        {
+            return ComplexEquality(first, second);
+
+        }
+
+        public static bool operator !=(ComplexNumber first, ComplexNumber second)
+        {
+            return !ComplexEquality(first, second);
+
+            }
 
         public static ComplexNumber Complexify(float c)
         {
@@ -103,7 +148,7 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
         }
 
 
-        public static float Norm(ComplexNumber z)
+        public static float Modulus(ComplexNumber z)
         {
             float result = SquareLength(z);
 
@@ -111,7 +156,6 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
 
         }
         public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
-
 
 
 
@@ -189,7 +233,7 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
 
         public static ComplexNumber Pow(ComplexNumber z, float a)
         {
-            float mod = Norm(z);
+            float mod = Modulus(z);
 
             float arg = Arg(z);
 
@@ -210,7 +254,7 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
 
         public static ComplexNumber Sqrt(ComplexNumber z)
         {
-            float mod = Norm(z);
+            float mod = Modulus(z);
 
             float arg = Arg(z);
 
@@ -231,7 +275,7 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
         {
             ComplexNumber z = new ComplexNumber(c, 0);
 
-            float mod = Norm(z);
+            float mod = Modulus(z);
 
             float arg = Arg(z);
 
@@ -248,11 +292,7 @@ new ComplexNumber((top * Conjugate(bottom)).real / Norm(bottom), (top * Conjugat
 
         }
 
-
-
     }
-
-
 
 
 }
