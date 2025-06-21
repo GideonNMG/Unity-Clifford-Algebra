@@ -7,7 +7,7 @@ namespace Clifford.Algebra
     public class CliffordOperations
     {
 
-        public static CAComponent BladeProduct(Blade left, Blade right, Metric metric)
+        public static Term BladeProduct(Blade left, Blade right, Metric metric)
         {
             int n = metric.matrix.GetLength(0);
 
@@ -17,11 +17,11 @@ namespace Clifford.Algebra
 
             float scalar = 1f;
 
-            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.ReverseBladeParity(right);
+            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.BladeParity(right);
 
             float productParity = (float)BladeUtilities.BladeProductParity(left, right);
 
-            scalar *= left.basis[0] * BladeUtilities.ReversionFactor(right.basis) * right.basis[0];
+            scalar *= left.basis[0] * right.basis[0];
 
             scalar *= parity;
 
@@ -29,31 +29,65 @@ namespace Clifford.Algebra
 
             for (int i = 1; i<= n+1; i++)
             {
+                float bi = left.basis[i] + right.basis[i];
 
-                if(left.basis[i]!=0 && right.basis[i] != 0)
+                if (bi == 2)
                 {
-                    scalar *= left.basis[i] * right.basis[i] * metric.matrix[i - 1, i - 1];
+                    scalar *=  metric.matrix[i - 1, i - 1];
 
                 }
 
 
-                else if(Logic.XorValue(left.basis[i], right.basis[i], 1f))
+                else 
                 {
-                    basis[i] = 1;
+                    basis[i] = bi;
 
                 }
-
-                else if(left.basis[i] == 0 && right.basis[i] == 0)
-                {
-
-                    basis[i] = 0;
-                }
+              
             }
 
 
             Blade product = new Blade(basis);
 
-            CAComponent result = new CAComponent(product, scalar);
+            Term result = new Term(product, scalar);
+
+            return result;
+
+        }
+
+        public static Term BladeProduct(Blade left, Blade right)  //If no metric is explcicity required, the metric is assumed to be Euclidean. 
+        {
+            int n = left.basis.Length - 1;
+
+            float[] basis = new float[n + 1];
+
+            basis[0] = 1;
+
+            float scalar = 1f;
+
+            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.BladeParity(right);
+
+            float productParity = (float)BladeUtilities.BladeProductParity(left, right);
+
+            scalar *= left.basis[0] * right.basis[0];
+
+            scalar *= parity;
+
+            scalar *= productParity;
+
+            for (int i = 1; i <= n + 1; i++)
+            {
+                float bi = left.basis[i] + right.basis[i];
+
+
+                    basis[i] = bi %2 ;
+
+            }
+
+
+            Blade product = new Blade(basis);
+
+            Term result = new Term(product, scalar);
 
             return result;
 
@@ -61,18 +95,33 @@ namespace Clifford.Algebra
 
 
 
-        public static CAComponent ComponentProduct(CAComponent left, CAComponent right, Metric metric)
+        public static Term TermProduct(Term left, Term right, Metric metric)
         {
             float scalar = left.scalar * right.scalar;
 
-            CAComponent product = BladeProduct(left.blade, right.blade, metric);
+            Term product = BladeProduct(left.blade, right.blade, metric);
 
             scalar *= product.scalar;
            
-            CAComponent result = new CAComponent(product.blade, scalar);
+            Term result = new Term(product.blade, scalar);
 
             return result;
         }
+
+
+        public static Term TermProduct(Term left, Term right)
+        {
+            float scalar = left.scalar * right.scalar;
+
+            Term product = BladeProduct(left.blade, right.blade);
+
+            scalar *= product.scalar;
+
+            Term result = new Term(product.blade, scalar);
+
+            return result;
+        }
+
     }
 
 }

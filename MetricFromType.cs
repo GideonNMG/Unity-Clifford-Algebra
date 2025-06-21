@@ -8,6 +8,17 @@ namespace MatrixMath
     public static class MetricFromType
     {
 
+
+        public static Metric MetricTensor(int n, int k, Metrics.MetricType metricType)
+        {
+
+            float[,] metricMatrix = Metrics.MetricMatrix(n, k, metricType);
+
+            Metric result = new Metric(metricMatrix);
+
+            return result;
+        }
+
         public static Metric MetricTensor(int n, Metrics.MetricType metricType)
         {
             float[,] matrix = Metrics.Metric(n, metricType);
@@ -37,6 +48,33 @@ namespace MatrixMath
             return metric;
 
         }
+
+        public static Metric MetricTensor(float[,] metricMatrix)
+        {
+            Metric metric = new Metric(metricMatrix);
+
+            return metric;
+
+        }
+
+        public static Metric EuclideanMetric(int n)
+        {
+
+            float[,] euclidean = Metrics.EuclideanMatrix(n);
+
+            Metric result = new Metric(euclidean);
+
+            return result;
+        }
+
+        public static Metric MinkowskiMetric()
+        {        
+
+            Metric result = new Metric(ConstantMatrices.Minkowski());
+
+            return result;
+        }
+
 
     }
 

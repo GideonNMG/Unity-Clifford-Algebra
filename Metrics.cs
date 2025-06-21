@@ -37,6 +37,8 @@ namespace MatrixMath
         };
 
 
+     
+
         // n = dimension; k = number of negative eigenvalues (only for Generalized Lorentzian); metricType = kind of metric.  
         public static float[,] MetricMatrix(int n, int k, MetricType metricType)
         {
@@ -47,13 +49,13 @@ namespace MatrixMath
                 case MetricType.Euclidean:
 
 
-                    return EuclideanMetric(n);
+                    return EuclideanMatrix(n);
 
                 //break; // I know that "break" is unreachable, but switch statements don't look right without it. 
 
                 case MetricType.Minkowski:
 
-                    return LorentzianMetric(4);
+                    return LorentzianMatrix(4);
 
                
                
@@ -61,19 +63,19 @@ namespace MatrixMath
 
                 case MetricType.MinkowskiNegativeFirst:
 
-                    return LorentzianMetric(4, true);
+                    return LorentzianMatrix(4, true);
 
                 //break;
 
                 case MetricType.MinkowskiMinus:
 
-                    return LorentzianMetric(4, 3, true);
+                    return LorentzianMatrix(4, 3, true);
 
                 //break;
 
                 case MetricType.MinkowskiMinusOnePlus:
 
-                    return LorentzianMetric(4, 3);
+                    return LorentzianMatrix(4, 3);
 
                 //break;
 
@@ -81,14 +83,14 @@ namespace MatrixMath
 
                 case MetricType.Lorentzian:
 
-                    return LorentzianMetric(n);
+                    return LorentzianMatrix(n);
 
                 //break;
 
 
                 case MetricType.LorentzianNegativeFirst:
 
-                    return LorentzianMetric(n, true);
+                    return LorentzianMatrix(n, true);
 
                 // break;
 
@@ -96,32 +98,33 @@ namespace MatrixMath
 
                 case MetricType.GeneralizedLorentzian:
 
-                    return LorentzianMetric(n, k);
+                    return LorentzianMatrix(n, k);
 
                 //break;
 
 
                 case MetricType.GeneralizedLorentzianNegativeFirst:
 
-                    return LorentzianMetric(n, k, true);
+                    return LorentzianMatrix(n, k, true);
 
                 // break;
 
                 case MetricType.Degenerate:
 
-                    return DegenerateMetric(n);
+                    return DegenerateMatrix(n);
 
                 // break;
 
                 default:
 
-                    return EuclideanMetric(n);
+                    return EuclideanMatrix(n);
 
                  //break;
 
             }
 
         }
+
 
 
         public static float[,] Metric(int n, MetricType metricType)
@@ -131,11 +134,12 @@ namespace MatrixMath
 
         }
 
+   
 
         public static float[,] Metric(int n, int k)
         {
 
-            return LorentzianMetric(n, k);
+            return LorentzianMatrix(n, k);
 
         }
 
@@ -144,13 +148,13 @@ namespace MatrixMath
         public static float[,] Metric(float[] eigenValues)
         {
 
-            return DiagonalMetric(eigenValues);
+            return DiagonalMatrix(eigenValues);
 
         }
 
       
    
-        public static float[,] EuclideanMetric(int n)
+        public static float[,] EuclideanMatrix(int n)
         {
             float[,] result = new float[n, n];
 
@@ -181,7 +185,7 @@ namespace MatrixMath
 
 
 
-        public static float[,] LorentzianMetric(int n, bool negativeFirst) // n = dimension; a_00 = -1;
+        public static float[,] LorentzianMatrix(int n, bool negativeFirst) // n = dimension; a_00 = -1;
         {
 
 
@@ -225,7 +229,7 @@ namespace MatrixMath
 
             else
             {
-                result = LorentzianMetric(n);
+                result = LorentzianMatrix(n);
 
             }
 
@@ -235,7 +239,7 @@ namespace MatrixMath
 
 
 
-        public static float[,] LorentzianMetric(int n) // n = dimension; a_00 = -1;
+        public static float[,] LorentzianMatrix(int n) // n = dimension; a_00 = -1;
         {
 
 
@@ -278,7 +282,7 @@ namespace MatrixMath
 
 
 
-        public static float[,] LorentzianMetric(int n, int k) // n = dimension; k = number of postive values; 
+        public static float[,] LorentzianMatrix(int n, int k) // n = dimension; k = number of postive values; 
         {
 
 
@@ -321,7 +325,7 @@ namespace MatrixMath
 
 
 
-        public static float[,] LorentzianMetric(int n, int k, bool negativeFirst) // n = dimesnion; i = number of postive values; j = number of negative values; 
+        public static float[,] LorentzianMatrix(int n, int k, bool negativeFirst) // n = dimesnion; i = number of postive values; j = number of negative values; 
         {
 
             float[,] result = new float[n, n];
@@ -370,7 +374,7 @@ namespace MatrixMath
             else
             {
 
-                result = LorentzianMetric(n, k);
+                result = LorentzianMatrix(n, k);
             }
 
 
@@ -379,7 +383,7 @@ namespace MatrixMath
         }
 
 
-        public static float[,] DiagonalMetric(float[] eigenValues)
+        public static float[,] DiagonalMatrix(float[] eigenValues)
         {
             int n = eigenValues.Length;
 
@@ -412,7 +416,7 @@ namespace MatrixMath
 
         }
 
-        public static float[,] DegenerateMetric(int n)
+        public static float[,] DegenerateMatrix(int n)
         {
             float[,] result = new float[n, n];
 
@@ -445,7 +449,7 @@ namespace MatrixMath
             if (n != m)
             {
 
-                Debug.LogWarning("Row and column vectors are incombatible");
+                Debug.LogWarning("Row and column vectors are incompatible");
 
                 return 0f;
 
@@ -478,11 +482,61 @@ namespace MatrixMath
 
         }
 
+        public static float MetricProduct(float[] left, float[] right, Metric metric)
+        {
+            int n = left.Length;
+
+            int m = right.Length;
+
+
+            if (n != m)
+            {
+
+                Debug.LogWarning("Row and column vectors are incompatible");
+
+                return 0f;
+
+            }
+
+
+            else
+            {
+                float[,] matrix = new float[n, n];
+
+                matrix = metric.matrix;
+
+                float[,] rowVector = new float[1, n];
+
+                rowVector = MatrixUtilities.ArrayToRow(left);
+
+                float[,] columnVector = new float[n, 1];
+
+                columnVector = MatrixUtilities.ArrayToColumn(right);
+
+                columnVector = Matrices.MatrixProduct(matrix, columnVector);
+
+                float[,] product = new float[1, 1];
+
+                product = Matrices.MatrixProduct(rowVector, columnVector);
+
+                return product[0, 0];
+
+            }
+
+        }
+
         public static float MetricDistanceSquared(float[] vect, MetricType metricType)
         {
 
             return MetricProduct(vect, vect, metricType);
         }
+
+        public static float MetricDistanceSquared(float[] vect, Metric metric)
+        {
+
+            return MetricProduct(vect, vect, metric);
+        }
+
 
     }
 

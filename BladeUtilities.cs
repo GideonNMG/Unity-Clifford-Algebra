@@ -109,7 +109,7 @@ namespace Clifford.Algebra
         {
             int[] leftIndecies = BladeIndices(left);
 
-            int[] rightInecies = BladeIndices(ReverseBlade(right));
+            int[] rightInecies = BladeIndices(right);
 
             int[] result = leftIndecies.Concat(rightInecies).ToArray();
 

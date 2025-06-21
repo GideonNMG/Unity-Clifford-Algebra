@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace Clifford.Algebra
 {
-    public struct CAComponent
+    public struct Term
     {
+
         public Blade blade;
 
         public float scalar;
 
 
-        public CAComponent(Blade blade, float c)
+        public Term(Blade blade, float c)
         {
             this.scalar = c;
 
@@ -19,6 +20,4 @@ namespace Clifford.Algebra
 
     }
 
-
 }
-

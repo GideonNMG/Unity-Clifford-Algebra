@@ -8,13 +8,10 @@ namespace MatrixMath
     public struct Metric
     {
 
-
         public float[,] matrix;
 
         public float n;
-
-      
-
+   
         public Metric(float[,] matrix)
         {
 

@@ -1,6 +1,9 @@
 using UnityEngine;
 using System;
-using System.Numerics;
+//using Clifford;
+using ComplexNumbers;
+
+//using System.Numerics;
 
 
 namespace MatrixMath
@@ -8,38 +11,38 @@ namespace MatrixMath
     public  static class Polynomials
     {
 
-       public static readonly Complex _i = Complex.ImaginaryOne;
+       public static readonly ComplexNumber _i = ComplexNumber.ImaginaryOne;
 
-        public static readonly Complex _xi = new Complex(-1 / 2, Mathf.Sqrt(3) / 2);
+        public static readonly ComplexNumber _xi = new ComplexNumber(-1 / 2, Mathf.Sqrt(3) / 2);
 
-        public static Complex[] QuadraticZeroes(float a, float b, float c)
+        public static ComplexNumber[] QuadraticZeroes(float a, float b, float c)
         {
 
-            Complex[] result = new Complex[2];
+            ComplexNumber[] result = new ComplexNumber[2];
 
-            Complex r = DiscriminantRoot(a, b, c);
+            ComplexNumber r = DiscriminantRoot(a, b, c);
 
-            result[0] = (-b + r) / 2f * a;
+            result[0] = (-ComplexNumber.Complexify(b) + r) / 2f * a;
 
-            result[1] = (-b - r) / 2f * a;
+            result[1] = (-ComplexNumber.Complexify(b)- r) / 2f * a;
 
             return result;
         }
 
-        public static Complex QuadraticZeroes(float a, float b, float c, int k)
+        public static ComplexNumber QuadraticZeroes(float a, float b, float c, int k)
         {
 
             int index = k % 2;
 
-            Complex[] zeroes = new Complex[2];
+            ComplexNumber[] zeroes = new ComplexNumber[2];
 
-            Complex r = DiscriminantRoot(a, b, c);
+            ComplexNumber r = DiscriminantRoot(a, b, c);
 
             zeroes[0] = (-b + r) / 2f * a;
 
-            zeroes[1] = (-b - r) / 2f * a;
+            zeroes[1] = (-ComplexNumber.Complexify(b) - r) / 2f * a;
 
-            Complex result = zeroes[index];
+            ComplexNumber result = zeroes[index];
 
             return result;
         }
@@ -106,27 +109,27 @@ namespace MatrixMath
 
 
 
-        public static Complex DiscriminantRoot(float a, float b, float c)
+        public static ComplexNumber DiscriminantRoot(float a, float b, float c)
         {
 
-            Complex result = Complex.Sqrt(b * b - 4 * a * c);
+            ComplexNumber result = ComplexNumber.Sqrt(b * b - 4 * a * c);
 
             return result;
         }
 
 
-        public static float RealPart(Complex z)
+        public static float RealPart(ComplexNumber z)
         {
 
-            float result = (float)z.Real;
+            float result = (float)z.real;
 
             return result;
         }
 
-        public static float ImaginaryPart(Complex z)
+        public static float ImaginaryPart(ComplexNumber z)
         {
 
-            float result = (float)z.Imaginary;
+            float result = (float)z.imaginary;
 
             return result;
         }
@@ -144,40 +147,40 @@ namespace MatrixMath
 
 
     
-        public static Complex CubeRoot(Complex z)
+        public static ComplexNumber CubeRoot(ComplexNumber z)
         {
 
-            Complex result = Complex.Pow(z, 1 / 3);
+            ComplexNumber result = ComplexNumber.Pow(z, 1 / 3);
 
             return result;
         }
 
 
 
-        public static Complex ComplexCubeRoot(float a)
+        public static ComplexNumber ComplexNumberCubeRoot(float a)
         {
 
-            Complex z = MakeFloatComplex(a);
+            ComplexNumber z = ComplexNumber.Complexify(a);
 
-            Complex result = Complex.Pow(z, 1 / 3);
+            ComplexNumber result = ComplexNumber.Pow(z, 1 / 3);
 
             return result;
         }
 
 
-        public static Complex MakeFloatComplex(float a)
+        //public static ComplexNumber MakeFloatComplexNumber(float a)
+        //{
+
+        //    ComplexNumber result = new ComplexNumber(a, 0);
+
+        //    return result;
+        //}
+
+
+        public static ComplexNumber[] CubicZeroes(float a, float b, float c, float d)
         {
 
-            Complex result = new Complex(a, 0);
-
-            return result;
-        }
-
-
-        public static Complex[] CubicZeroes(float a, float b, float c, float d)
-        {
-
-            Complex[] result = new Complex[3];
+            ComplexNumber[] result = new ComplexNumber[3];
 
 
             float delta0 = b * b - 3f * a * c;
@@ -197,7 +200,7 @@ namespace MatrixMath
             for(int k = 0; k < 3; k++)
             {
 
-                Complex Xi_k = Complex.Pow(_xi, k);
+                ComplexNumber Xi_k = ComplexNumber.Pow(_xi, k);
 
                 result[k] = (-1 / 3f * a) * ( b + (Xi_k * beta) + delta0/ (Xi_k * beta) );
             }

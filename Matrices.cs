@@ -8,8 +8,6 @@ namespace MatrixMath
     {
 
 
-
-
         public static float[,] MatrixProduct(float[,] a, float[,] b)
         {
 

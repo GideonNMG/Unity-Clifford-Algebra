@@ -151,6 +151,19 @@ namespace Clifford.Algebra
          */
 
 
+        public static Blade[] GetBladesFromIndex(int n, int d)
+        {
+            Blade[] result = new Blade[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                result[i] = BladeFromIndex(i, d);
+
+            }
+
+            return result;
+
+        }
 
         public static Blade BladeFromIndex(int index, int n)
         {
@@ -290,8 +303,7 @@ namespace Clifford.Algebra
             return MathUtilities.DescendingPartialSum(n, m, j);
 
         }
-
-
+  
     }
 
 }

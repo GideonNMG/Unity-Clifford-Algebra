@@ -99,6 +99,9 @@ namespace Clifford.Algebra
             return result;
         }
 
+
+        
+
     }
 
 

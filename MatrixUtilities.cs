@@ -180,6 +180,70 @@ namespace MatrixMath
         }
 
 
+        public static float[,] SetAllOne(int n)
+        {
+
+            float[,] A = new float[n, n];
+
+            for(int i = 0; i < n; i++)
+            {
+
+                for(int j = 0; j < n; j++)
+                {
+
+                    A[i, j] = 1;
+                }
+
+            }
+
+            return A;
+        }
+
+
+        public static float[,] SetAllZero(int n)
+        {
+
+            float[,] A = new float[n, n];
+
+            for (int i = 0; i < n; i++)
+            {
+
+                for (int j = 0; j < n; j++)
+                {
+
+                    A[i, j] = 0;
+                }
+
+            }
+
+            return A;
+        }
+
+
+        public static float[,] DiagonalOnes(int n)
+        {
+
+            float[,] A = SetAllZero(n);
+
+            for (int i = 0; i < n; i++)
+            {
+
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == j)
+                    {
+                        A[i, j] = 1;
+
+                    }
+
+                    
+                }
+
+            }
+
+            return A;
+        }
+
 
     }
 
