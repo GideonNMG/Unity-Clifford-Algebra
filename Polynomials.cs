@@ -1,12 +1,8 @@
 using UnityEngine;
 using System;
-//using Clifford;
-using ComplexNumbers;
-
-//using System.Numerics;
 
 
-namespace MatrixMath
+namespace ComplexNumbers
 {
     public  static class Polynomials
     {

@@ -24,20 +24,20 @@ namespace Clifford.Algebra
 
             Blade dualBlade = new Blade(dualBasis);
 
-            Term result = new Term(dualBlade, scalar);
+            Term result = new Term(scalar, dualBlade);
 
             return result;
         }
 
         public static Term SquareProduct(Term term, Metric metric)
         {
-            return CliffordOperations.TermProduct(term, term, metric);
+            return Term.TermProduct(term, term, metric);
 
         }
 
         public static Term SquareProduct(Blade blade, Metric metric)
         {
-            return CliffordOperations.BladeProduct(blade, blade, metric);
+            return Term.BladeProduct(blade, blade, metric);
 
         }
 
@@ -88,7 +88,7 @@ namespace Clifford.Algebra
                 
             }
 
-            Term result = new Term(blade, scalar);
+            Term result = new Term(scalar, blade);
 
             return result;
         }
@@ -98,9 +98,9 @@ namespace Clifford.Algebra
         {
             Term[] result = new Term[2];
 
-            result[0] = new Term(ConstantAlgebras.PlaneEvenCA().blades[0], re);
+            result[0] = new Term(re, ConstantAlgebras.PlaneEvenCA().blades[0]);
 
-            result[1] = new Term(ConstantAlgebras.PlaneEvenCA().blades[1], im);
+            result[1] = new Term(im, ConstantAlgebras.PlaneEvenCA().blades[1]);
 
             return result;
         }
