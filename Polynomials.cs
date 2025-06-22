@@ -114,23 +114,7 @@ namespace ComplexNumbers
         }
 
 
-        public static float RealPart(ComplexNumber z)
-        {
-
-            float result = (float)z.real;
-
-            return result;
-        }
-
-        public static float ImaginaryPart(ComplexNumber z)
-        {
-
-            float result = (float)z.imaginary;
-
-            return result;
-        }
-
-
+  
 
         public static float CubeRoot(float a)
         {
@@ -162,15 +146,6 @@ namespace ComplexNumbers
 
             return result;
         }
-
-
-        //public static ComplexNumber MakeFloatComplexNumber(float a)
-        //{
-
-        //    ComplexNumber result = new ComplexNumber(a, 0);
-
-        //    return result;
-        //}
 
 
         public static ComplexNumber[] CubicZeroes(float a, float b, float c, float d)

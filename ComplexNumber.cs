@@ -3,7 +3,7 @@ using System;
 
 namespace ComplexNumbers
 {
-    public struct ComplexNumber
+    public struct ComplexNumber  //Defined as "ComplexNumber" instead of just "Complex" to avoid potential clashed with System.Numerics namespace.
     {
         public float real;
 
@@ -22,6 +22,8 @@ namespace ComplexNumbers
                 
         }
 
+
+        //Operator Overloads:
         public static ComplexNumber operator +(ComplexNumber operand) => operand;
 
         public static ComplexNumber operator +(ComplexNumber first, ComplexNumber second) =>
@@ -34,10 +36,33 @@ namespace ComplexNumbers
         new ComplexNumber(z.real + c, z.imaginary);
 
 
+        public static ComplexNumber operator +(ComplexNumber z, int i) =>
+         new ComplexNumber(z.real + (float)i, z.imaginary);
+
+
+        public static ComplexNumber operator +(int i, ComplexNumber z) =>
+        new ComplexNumber(z.real + (float)i, z.imaginary);
+
+
+
         public static ComplexNumber operator - (ComplexNumber operand) => operand;
 
         public static ComplexNumber operator -(ComplexNumber first, ComplexNumber second) =>
             new ComplexNumber(first.real - second.real, first.imaginary - second.imaginary);
+
+        public static ComplexNumber operator -(ComplexNumber z, float c) =>
+        new ComplexNumber(z.real - c, z.imaginary);
+
+        public static ComplexNumber operator -(float c, ComplexNumber z) =>
+        new ComplexNumber(c -z.real, -z.imaginary);
+
+
+        public static ComplexNumber operator -(ComplexNumber z, int i) =>
+        new ComplexNumber(z.real - (float)i, z.imaginary);
+
+        public static ComplexNumber operator -(int i, ComplexNumber z) =>
+        new ComplexNumber((float)i -z.real, -z.imaginary);
+
 
         public static ComplexNumber operator *(ComplexNumber first, ComplexNumber second) =>
         new ComplexNumber(first.real * second.real - first.imaginary * second.imaginary,
@@ -77,6 +102,7 @@ namespace ComplexNumbers
         (top * Conjugate(bottom)).imaginary / Modulus(bottom));
 
 
+        //Equality Override:
         public override bool Equals(object number)
         {
             if (number == null)
@@ -121,8 +147,12 @@ namespace ComplexNumbers
         {
             return !ComplexEquality(first, second);
 
-            }
 
+        }
+
+
+
+        //Complex Operations:
         public static ComplexNumber Complexify(float c)
         {
 
@@ -250,6 +280,28 @@ namespace ComplexNumbers
 
 
         }
+
+        // This one is a pain in the ass...
+        //public static ComplexNumber Pow(ComplexNumber z1, ComplexNumber z2)
+        //{
+        //    float mod = Modulus(z1);
+
+        //    float arg = Arg(z1);
+
+        //    //mod = Mathf.Pow(mod, a);
+
+        //    arg *= a;
+
+
+        //    //ComplexNumber exp = Expi(arg);
+
+        //    //ComplexNumber result = new ComplexNumber(mod * exp.real, mod * exp.imaginary);
+
+        //    //return result;
+
+
+        //}
+
 
 
         public static ComplexNumber Sqrt(ComplexNumber z)

@@ -19,6 +19,8 @@ namespace Clifford.Algebra
             this.blade = blade;
         }
 
+
+        //Term Operations:
         public static Term BladeProduct(Blade left, Blade right, Metric metric)
         {
             int n = metric.matrix.GetLength(0);
@@ -135,73 +137,6 @@ namespace Clifford.Algebra
         }
 
 
-        public override bool Equals(object term)
-        {
-            if (term == null)
-            {
-                return false;
-            }
-
-            var t = (Term)term;
-            return (scalar == t.scalar && Blade.BladeEquality(blade, t.blade));
-        }
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
-
-
-        public static bool TermEquality(Term first, Term second)
-        {
-
-            if(first.scalar == second.scalar && Blade.BladeEquality(first.blade, second.blade))
-            {
-
-                return true;
-
-            }
-
-            else
-            {
-
-                return false;
-            }
-        }
-
-        public static bool operator ==(Term first, Term second)
-        {
-            return TermEquality(first, second);
-
-        }
-
-        public static bool operator !=(Term first, Term second)
-        {
-            return !TermEquality(first, second);
-
-        }
-
-
-        public static Term operator * (Term first, Term second) =>
-            TermProduct(first, second);
-
-        public static Term operator *(Term term, float c) =>
-           new Term(term.scalar * c, term.blade);
-
-        public static Term operator *(float c, Term term) =>
-          new Term(term.scalar * c, term.blade);
-
-
-        public static Term operator *(Term term, int c) =>
-         new Term(term.scalar * (float)c, term.blade);
-
-
-
-        public static Term operator *(int c, Term term) =>
-         new Term(term.scalar * (float)c, term.blade);
-
-
-
         public static Term HodgeStarDual(Term term)
         {
 
@@ -250,7 +185,6 @@ namespace Clifford.Algebra
 
         }
 
-
         public static float SquareValue(Blade blade, Metric metric)
         {
 
@@ -264,8 +198,6 @@ namespace Clifford.Algebra
 
 
         }
-
-
 
         public static Term Unit(Blade blade, Metric metric)
         {
@@ -297,6 +229,73 @@ namespace Clifford.Algebra
 
             return result;
         }
+
+        //Equality Override:
+        public override bool Equals(object term)
+        {
+            if (term == null)
+            {
+                return false;
+            }
+
+            var t = (Term)term;
+            return (scalar == t.scalar && Blade.BladeEquality(blade, t.blade));
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+
+        public static bool TermEquality(Term first, Term second)
+        {
+
+            if(first.scalar == second.scalar && Blade.BladeEquality(first.blade, second.blade))
+            {
+
+                return true;
+
+            }
+
+            else
+            {
+
+                return false;
+            }
+        }
+
+        public static bool operator ==(Term first, Term second)
+        {
+            return TermEquality(first, second);
+
+        }
+
+        public static bool operator !=(Term first, Term second)
+        {
+            return !TermEquality(first, second);
+
+        }
+
+
+        //Operator Overloads:
+        public static Term operator * (Term first, Term second) =>
+            TermProduct(first, second);
+
+        public static Term operator *(Term term, float c) =>
+           new Term(term.scalar * c, term.blade);
+
+        public static Term operator *(float c, Term term) =>
+          new Term(term.scalar * c, term.blade);
+
+
+        public static Term operator *(Term term, int c) =>
+         new Term(term.scalar * (float)c, term.blade);
+
+
+        public static Term operator *(int c, Term term) =>
+         new Term(term.scalar * (float)c, term.blade);
+
 
     }
 

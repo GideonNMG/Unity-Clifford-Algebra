@@ -168,7 +168,6 @@ namespace Clifford.Algebra
         }
 
 
-
     }
 
 }

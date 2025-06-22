@@ -295,6 +295,8 @@ namespace Clifford.Algebra
 
         }
 
+    
+
     }
 
 

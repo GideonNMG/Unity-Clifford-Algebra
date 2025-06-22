@@ -34,6 +34,8 @@ namespace Clifford.Algebra
         }
 
 
+
+        //Equality Override:
         public static bool BladeEquality(Blade one, Blade two)
         {
             int n = one.basis.Length;
@@ -60,10 +62,39 @@ namespace Clifford.Algebra
             return true;
 
         }
+ 
+
+        public override bool Equals(object blade)
+        {
+            if (blade == null)
+            {
+                return false;
+            }
+
+            var b = (Blade)blade;
+            return (basis == b.basis);
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+        public static bool operator ==(Blade first, Blade second)
+        {
+            return BladeEquality(first, second);
+
+        }
+
+        public static bool operator !=(Blade first, Blade second)
+        {
+            return !BladeEquality(first, second);
+
+        }
+
 
 
     }
-
 
 
 }
