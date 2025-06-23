@@ -7,10 +7,7 @@ namespace ComplexNumbers
     public  static class Polynomials
     {
 
-       public static readonly ComplexNumber _i = ComplexNumber.ImaginaryOne;
-
-        public static readonly ComplexNumber _xi = new ComplexNumber(-1 / 2, Mathf.Sqrt(3) / 2);
-
+      
         public static ComplexNumber[] QuadraticZeroes(float a, float b, float c)
         {
 
@@ -171,7 +168,7 @@ namespace ComplexNumbers
             for(int k = 0; k < 3; k++)
             {
 
-                ComplexNumber Xi_k = ComplexNumber.Pow(_xi, k);
+                ComplexNumber Xi_k = ComplexNumber.Pow(ComplexNumber._xi, k);
 
                 result[k] = (-1 / 3f * a) * ( b + (Xi_k * beta) + delta0/ (Xi_k * beta) );
             }

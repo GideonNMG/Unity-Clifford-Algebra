@@ -22,7 +22,6 @@ namespace ComplexNumbers
                 
         }
 
-
         //Operator Overloads:
         public static ComplexNumber operator +(ComplexNumber operand) => operand;
 
@@ -102,6 +101,8 @@ namespace ComplexNumbers
         (top * Conjugate(bottom)).imaginary / Modulus(bottom));
 
 
+
+
         //Equality Override:
         public override bool Equals(object number)
         {
@@ -170,11 +171,19 @@ namespace ComplexNumbers
         public static float SquareLength(ComplexNumber z)
         {
 
-            ComplexNumber zbar = Conjugate(z);
-
-            float result = (z * zbar).real;
+            float result = z.real * z.real + z.imaginary * z.imaginary;
 
             return result;
+        }
+
+        public static float LogSquareLength(ComplexNumber z)
+        {
+            float s = SquareLength(z);
+
+            float result = Mathf.Log(s);
+
+            return result;
+
         }
 
 
@@ -185,7 +194,7 @@ namespace ComplexNumbers
             return Mathf.Sqrt(result);
 
         }
-        public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
+
 
 
 
@@ -240,6 +249,46 @@ namespace ComplexNumbers
 
         }
 
+        public static ComplexNumber Log(ComplexNumber z)
+        {
+            float re = Mathf.Log(Modulus(z));
+
+            float im = Arg(z);
+
+            ComplexNumber result = new ComplexNumber(re, im);
+
+            return result;
+
+        }
+
+
+        public static ComplexNumber Log(float x)
+        {
+
+            ComplexNumber result = new ComplexNumber();
+
+            float ln;
+
+            if (x > 0)
+            {
+                ln = Mathf.Log(x);
+
+                result = new ComplexNumber(ln, 0);
+               
+            }
+
+            else if (x < 0)
+            {
+                ln = Mathf.Log(-x);
+
+                result = new ComplexNumber(ln, Mathf.PI / 2);
+
+            }
+
+            return result;
+        }
+
+
         public static ComplexNumber Expi(float theta)
         {
 
@@ -278,29 +327,77 @@ namespace ComplexNumbers
 
             return result;
 
+        }
+
+
+        public static ComplexNumber Pow(float a, ComplexNumber z)
+        {
+
+            float lna = Mathf.Log(a);
+
+            float b = Mathf.Pow(a, z.real);
+
+            float c = z.imaginary * lna;
+
+            ComplexNumber result = Expi(c);
+
+            result *= b;
+
+            return result;
 
         }
 
-        // This one is a pain in the ass...
-        //public static ComplexNumber Pow(ComplexNumber z1, ComplexNumber z2)
-        //{
-        //    float mod = Modulus(z1);
+        public static ComplexNumber Pow(int n, ComplexNumber z)
+        {
 
-        //    float arg = Arg(z1);
+            float a = (float)n;
 
-        //    //mod = Mathf.Pow(mod, a);
+            float lna = Mathf.Log(a);
 
-        //    arg *= a;
+            float b = Mathf.Pow(a, z.real);
+
+            float c = z.imaginary * lna;
+
+            ComplexNumber result = Expi(c);
+
+            result *= b;
+
+            return result;
+
+        }
 
 
-        //    //ComplexNumber exp = Expi(arg);
 
-        //    //ComplexNumber result = new ComplexNumber(mod * exp.real, mod * exp.imaginary);
+        public static ComplexNumber Pow(ComplexNumber z, int n)
+        {
 
-        //    //return result;
+            float a = (float)n;
+
+            return Pow(z, a);
+        }
 
 
-        //}
+
+
+        public static ComplexNumber Pow(ComplexNumber z1, ComplexNumber z2)
+        {
+            float mod = Modulus(z1);
+
+            float arg = Arg(z1);
+
+            float a = Mathf.Pow(mod, z2.real);
+
+            float b = Mathf.Exp(-z1.imaginary * arg);
+
+            float c= z2.real * arg + z2.imaginary / 2 * LogSquareLength(z1);
+
+            ComplexNumber result = Expi(c);
+
+            result = a * b * result;
+
+            return result;
+
+        }
 
 
 
@@ -323,6 +420,7 @@ namespace ComplexNumbers
 
         }
 
+
         public static ComplexNumber Sqrt(float c)
         {
             ComplexNumber z = new ComplexNumber(c, 0);
@@ -343,6 +441,15 @@ namespace ComplexNumbers
             return result;
 
         }
+
+
+        //Complex Constants:
+        public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
+
+        public static readonly ComplexNumber _i = ComplexNumber.ImaginaryOne;
+
+        public static readonly ComplexNumber _xi = new ComplexNumber(-1 / 2, Mathf.Sqrt(3) / 2); //Complex cube root of one.
+
 
     }
 
