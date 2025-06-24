@@ -22,143 +22,53 @@ namespace ComplexNumbers
                 
         }
 
-        //Operator Overloads:
-        public static ComplexNumber operator +(ComplexNumber operand) => operand;
-
-        public static ComplexNumber operator +(ComplexNumber first, ComplexNumber second) =>
-            new ComplexNumber(first.real + second.real, first.imaginary + second.imaginary);
-
-        public static ComplexNumber operator + (ComplexNumber z, float c) =>
-         new ComplexNumber(z.real + c, z.imaginary );
-
-        public static ComplexNumber operator +(float c, ComplexNumber z) =>
-        new ComplexNumber(z.real + c, z.imaginary);
 
 
-        public static ComplexNumber operator +(ComplexNumber z, int i) =>
-         new ComplexNumber(z.real + (float)i, z.imaginary);
+        //Complex Constants:
+        public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
+
+        public static readonly ComplexNumber _i = ComplexNumber.ImaginaryOne;
+
+        public static readonly ComplexNumber _xi = new ComplexNumber(-1 / 2, Mathf.Sqrt(3) / 2); //Complex cube root of one.
 
 
-        public static ComplexNumber operator +(int i, ComplexNumber z) =>
-        new ComplexNumber(z.real + (float)i, z.imaginary);
-
-
-
-        public static ComplexNumber operator - (ComplexNumber operand) => operand;
-
-        public static ComplexNumber operator -(ComplexNumber first, ComplexNumber second) =>
-            new ComplexNumber(first.real - second.real, first.imaginary - second.imaginary);
-
-        public static ComplexNumber operator -(ComplexNumber z, float c) =>
-        new ComplexNumber(z.real - c, z.imaginary);
-
-        public static ComplexNumber operator -(float c, ComplexNumber z) =>
-        new ComplexNumber(c -z.real, -z.imaginary);
-
-
-        public static ComplexNumber operator -(ComplexNumber z, int i) =>
-        new ComplexNumber(z.real - (float)i, z.imaginary);
-
-        public static ComplexNumber operator -(int i, ComplexNumber z) =>
-        new ComplexNumber((float)i -z.real, -z.imaginary);
-
-
-        public static ComplexNumber operator *(ComplexNumber first, ComplexNumber second) =>
-        new ComplexNumber(first.real * second.real - first.imaginary * second.imaginary,
-        first.real * second.imaginary + second.real * first.imaginary);
-
-        public static ComplexNumber operator * (ComplexNumber z, float  c) =>
-        new ComplexNumber(z.real * c ,  z.imaginary * c);
-
-        public static ComplexNumber operator *(float c, ComplexNumber z) =>
-        new ComplexNumber(z.real * c, z.imaginary * c);
-
-        public static ComplexNumber operator *(int i, ComplexNumber z) =>
-        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
-
-
-        public static ComplexNumber operator *(ComplexNumber z, int i) =>
-        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
-
-
-
-        public static ComplexNumber operator /(ComplexNumber top, ComplexNumber bottom) =>
-       
-  
-        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
-        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
-
-
-        public static ComplexNumber operator /(ComplexNumber z, float c) =>
-
-            new ComplexNumber(z.real / c, z.imaginary / c);
-
-
-        public static ComplexNumber operator /(float top, ComplexNumber bottom) =>
-
-
-        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
-        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
-
-
-
-
-        //Equality Override:
-        public override bool Equals(object number)
-        {
-            if (number == null)
-            {
-                return false;
-            }
-
-            var z = (ComplexNumber)number;
-            return (real == z.real && imaginary == z.imaginary);
-        }
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
-
-
-        public static bool ComplexEquality(ComplexNumber z1, ComplexNumber z2)
-        {
-            if(z1.real == z2.real && z1.imaginary == z2.imaginary)
-            {
-
-                return true;
-            }
-
-            else
-            {
-
-                return false;
-            }
-
-        }
-   
-
-        public static bool operator ==(ComplexNumber first, ComplexNumber second)
-        {
-            return ComplexEquality(first, second);
-
-        }
-
-        public static bool operator !=(ComplexNumber first, ComplexNumber second)
-        {
-            return !ComplexEquality(first, second);
-
-
-        }
 
 
 
         //Complex Operations:
+
+        public static ComplexNumber ComplexFromArray(float[] array)
+        {
+            ComplexNumber result = new ComplexNumber(array[0], array[1]);
+
+            return result;
+
+        }
+
+
         public static ComplexNumber Complexify(float c)
         {
 
             return new ComplexNumber(c, 0);
         }
+
+
+        public static ComplexNumber[] ComplexifyArray(float[] c)
+        {
+            int n = c.Length;
+
+            ComplexNumber[] result = new ComplexNumber[n];
+
+            for(int i = 0; i < n; i++)
+            {
+                result[i] = Complexify(c[i]);
+
+            }
+
+            return result;
+          
+        }
+
 
         public static ComplexNumber Conjugate(ComplexNumber z)
         {
@@ -194,7 +104,6 @@ namespace ComplexNumbers
             return Mathf.Sqrt(result);
 
         }
-
 
 
 
@@ -443,12 +352,136 @@ namespace ComplexNumbers
         }
 
 
-        //Complex Constants:
-        public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
 
-        public static readonly ComplexNumber _i = ComplexNumber.ImaginaryOne;
+        //Operator Overloads:
+        public static ComplexNumber operator +(ComplexNumber operand) => operand;
 
-        public static readonly ComplexNumber _xi = new ComplexNumber(-1 / 2, Mathf.Sqrt(3) / 2); //Complex cube root of one.
+        public static ComplexNumber operator +(ComplexNumber first, ComplexNumber second) =>
+            new ComplexNumber(first.real + second.real, first.imaginary + second.imaginary);
+
+        public static ComplexNumber operator +(ComplexNumber z, float c) =>
+         new ComplexNumber(z.real + c, z.imaginary);
+
+        public static ComplexNumber operator +(float c, ComplexNumber z) =>
+        new ComplexNumber(z.real + c, z.imaginary);
+
+
+        public static ComplexNumber operator +(ComplexNumber z, int i) =>
+         new ComplexNumber(z.real + (float)i, z.imaginary);
+
+
+        public static ComplexNumber operator +(int i, ComplexNumber z) =>
+        new ComplexNumber(z.real + (float)i, z.imaginary);
+
+
+
+        public static ComplexNumber operator -(ComplexNumber operand) => operand;
+
+        public static ComplexNumber operator -(ComplexNumber first, ComplexNumber second) =>
+            new ComplexNumber(first.real - second.real, first.imaginary - second.imaginary);
+
+        public static ComplexNumber operator -(ComplexNumber z, float c) =>
+        new ComplexNumber(z.real - c, z.imaginary);
+
+        public static ComplexNumber operator -(float c, ComplexNumber z) =>
+        new ComplexNumber(c - z.real, -z.imaginary);
+
+
+        public static ComplexNumber operator -(ComplexNumber z, int i) =>
+        new ComplexNumber(z.real - (float)i, z.imaginary);
+
+        public static ComplexNumber operator -(int i, ComplexNumber z) =>
+        new ComplexNumber((float)i - z.real, -z.imaginary);
+
+
+        public static ComplexNumber operator *(ComplexNumber first, ComplexNumber second) =>
+        new ComplexNumber(first.real * second.real - first.imaginary * second.imaginary,
+        first.real * second.imaginary + second.real * first.imaginary);
+
+        public static ComplexNumber operator *(ComplexNumber z, float c) =>
+        new ComplexNumber(z.real * c, z.imaginary * c);
+
+        public static ComplexNumber operator *(float c, ComplexNumber z) =>
+        new ComplexNumber(z.real * c, z.imaginary * c);
+
+        public static ComplexNumber operator *(int i, ComplexNumber z) =>
+        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
+
+
+        public static ComplexNumber operator *(ComplexNumber z, int i) =>
+        new ComplexNumber(z.real * (float)i, z.imaginary * (float)i);
+
+
+
+        public static ComplexNumber operator /(ComplexNumber top, ComplexNumber bottom) =>
+
+
+        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
+        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
+
+
+        public static ComplexNumber operator /(ComplexNumber z, float c) =>
+
+            new ComplexNumber(z.real / c, z.imaginary / c);
+
+
+        public static ComplexNumber operator /(float top, ComplexNumber bottom) =>
+
+
+        new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
+        (top * Conjugate(bottom)).imaginary / Modulus(bottom));
+
+
+
+
+        //Equality Override:
+        public override bool Equals(object number)
+        {
+            if (number == null)
+            {
+                return false;
+            }
+
+            var z = (ComplexNumber)number;
+            return (real == z.real && imaginary == z.imaginary);
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+
+        public static bool ComplexEquality(ComplexNumber z1, ComplexNumber z2)
+        {
+            if (z1.real == z2.real && z1.imaginary == z2.imaginary)
+            {
+
+                return true;
+            }
+
+            else
+            {
+
+                return false;
+            }
+
+        }
+
+
+        public static bool operator ==(ComplexNumber first, ComplexNumber second)
+        {
+            return ComplexEquality(first, second);
+
+        }
+
+        public static bool operator !=(ComplexNumber first, ComplexNumber second)
+        {
+            return !ComplexEquality(first, second);
+
+
+        }
+
 
 
     }

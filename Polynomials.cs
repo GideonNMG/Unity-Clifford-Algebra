@@ -6,7 +6,6 @@ namespace ComplexNumbers
 {
     public  static class Polynomials
     {
-
       
         public static ComplexNumber[] QuadraticZeroes(float a, float b, float c)
         {
@@ -18,6 +17,51 @@ namespace ComplexNumbers
             result[0] = (-ComplexNumber.Complexify(b) + r) / 2f * a;
 
             result[1] = (-ComplexNumber.Complexify(b)- r) / 2f * a;
+
+            return result;
+        }
+
+        public static ComplexNumber[] QuadraticZeroes(float a, float b, ComplexNumber c)
+        {
+
+            ComplexNumber[] result = new ComplexNumber[2];
+
+            ComplexNumber r = DiscriminantRoot(a, b, c);
+
+            result[0] = (-ComplexNumber.Complexify(b) + r) / 2f * a;
+
+            result[1] = (-ComplexNumber.Complexify(b) - r) / 2f * a;
+
+            return result;
+        }
+
+
+        public static ComplexNumber[] QuadraticZeroes(float a, ComplexNumber b, float c)
+        {
+
+            ComplexNumber[] result = new ComplexNumber[2];
+
+            ComplexNumber r = DiscriminantRoot(a, b, c);
+
+            result[0] = (-b + r) / 2f * a;
+
+            result[1] = (-b - r) / 2f * a;
+
+            return result;
+        }
+
+
+
+        public static ComplexNumber[] QuadraticZeroes(ComplexNumber a, ComplexNumber b, ComplexNumber c)
+        {
+
+            ComplexNumber[] result = new ComplexNumber[2];
+
+            ComplexNumber r = DiscriminantRoot(a, b, c);
+
+            result[0] = (-b + r) / 2f * a;
+
+            result[1] = (-b - r) / 2f * a;
 
             return result;
         }
@@ -39,6 +83,26 @@ namespace ComplexNumbers
 
             return result;
         }
+
+
+        public static ComplexNumber QuadraticZeroes(ComplexNumber a, ComplexNumber b, ComplexNumber c, int k)
+        {
+
+            int index = k % 2;
+
+            ComplexNumber[] zeroes = new ComplexNumber[2];
+
+            ComplexNumber r = DiscriminantRoot(a, b, c);
+
+            zeroes[0] = (-b + r) / 2f * a;
+
+            zeroes[1] = (-b - r) / 2f * a;
+
+            ComplexNumber result = zeroes[index];
+
+            return result;
+        }
+
 
 
         public static float[] RealQuadraticZeroes(float a, float b, float c)
@@ -101,6 +165,15 @@ namespace ComplexNumbers
         }
 
 
+        public static ComplexNumber Discriminant(ComplexNumber a, ComplexNumber b, ComplexNumber c)
+        {
+
+            ComplexNumber result = (b * b - 4 * a * c);
+
+            return result;
+        }
+
+
 
         public static ComplexNumber DiscriminantRoot(float a, float b, float c)
         {
@@ -111,7 +184,33 @@ namespace ComplexNumbers
         }
 
 
-  
+        public static ComplexNumber DiscriminantRoot(float a, ComplexNumber b, float c)
+        {
+
+            ComplexNumber result = ComplexNumber.Sqrt(b * b - 4 * a * c);
+
+            return result;
+        }
+
+        public static ComplexNumber DiscriminantRoot(float a, float b, ComplexNumber c)
+        {
+
+            ComplexNumber result = ComplexNumber.Sqrt(b * b - 4 * a * c);
+
+            return result;
+        }
+
+
+
+        public static ComplexNumber DiscriminantRoot(ComplexNumber a, ComplexNumber b, ComplexNumber c)
+        {
+
+            ComplexNumber result = ComplexNumber.Sqrt(b * b - 4 * a * c);
+
+            return result;
+        }
+
+
 
         public static float CubeRoot(float a)
         {
@@ -176,6 +275,27 @@ namespace ComplexNumbers
             return result;
           
         }
+
+       
+
+        public static ComplexNumber DiophantinePoly( int[] c, float x)
+        {
+            int n = c.Length;
+
+            ComplexNumber result = new ComplexNumber(0, 0);
+           
+
+            for(int i = 0; i < n; i++)
+            {
+
+                result += c[i] * Mathf.Pow(x, (n - i));
+            }
+
+            return result;
+
+
+        }
+       
 
     }
 
