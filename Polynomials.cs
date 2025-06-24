@@ -278,23 +278,6 @@ namespace ComplexNumbers
 
        
 
-        public static ComplexNumber DiophantinePoly( int[] c, float x)
-        {
-            int n = c.Length;
-
-            ComplexNumber result = new ComplexNumber(0, 0);
-           
-
-            for(int i = 0; i < n; i++)
-            {
-
-                result += c[i] * Mathf.Pow(x, (n - i));
-            }
-
-            return result;
-
-
-        }
        
 
     }

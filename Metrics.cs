@@ -324,8 +324,8 @@ namespace MatrixMath
         }
 
 
-
-        public static float[,] LorentzianMatrix(int n, int k, bool negativeFirst) // n = dimesnion; i = number of postive values; j = number of negative values; 
+        // n = dimension; i = number of postive values; j = number of negative values; 
+        public static float[,] LorentzianMatrix(int n, int k, bool negativeFirst) 
         {
 
             float[,] result = new float[n, n];

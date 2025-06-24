@@ -5,15 +5,10 @@ using UnityEngine;
 
 namespace ComplexNumbers
 {
-    public abstract class ComplexNumberTest
+    public abstract class PolynomialTest
     {
 
-        public static System.Random randomNumber = new System.Random();
-
-
-
-
-
+        //public static ComplexNumber RandomPoly()
 
 
     }

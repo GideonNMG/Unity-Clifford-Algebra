@@ -23,7 +23,6 @@ namespace ComplexNumbers
         }
 
 
-
         //Complex Constants:
         public static ComplexNumber ImaginaryOne = new ComplexNumber(0, 1);
 
@@ -352,6 +351,40 @@ namespace ComplexNumbers
         }
 
 
+        public static float[] ReArray(ComplexNumber[] Z)
+        {
+
+            int n = Z.Length;
+
+            float[] result = new float[n];
+
+            for(int i = 0; i < n; i++)
+            {
+
+                result[i] = Z[i].real;
+            }
+
+            return result;
+        }
+
+
+        public static float[] ImArray(ComplexNumber[] Z)
+        {
+
+            int n = Z.Length;
+
+            float[] result = new float[n];
+
+            for (int i = 0; i < n; i++)
+            {
+
+                result[i] = Z[i].imaginary;
+            }
+
+            return result;
+        }
+
+
 
         //Operator Overloads:
         public static ComplexNumber operator +(ComplexNumber operand) => operand;
@@ -482,7 +515,53 @@ namespace ComplexNumbers
 
         }
 
+        //Random ComplexNumbers:
 
+        public static float[] RandomPair(float min, float max)
+        {
+            float[] pair = new float[2];
+
+            pair[0] = UnityEngine.Random.Range(min, max);
+
+            pair[1] = UnityEngine.Random.Range(min, max);
+
+            return pair;
+
+        }
+
+        public static float[] RandomPair(float a)
+        {
+            float[] pair = new float[2];
+
+            pair[0] = UnityEngine.Random.Range(-a, a);
+
+            pair[1] = UnityEngine.Random.Range(-a, a);
+
+            return pair;
+
+        }
+
+
+        public static ComplexNumber RandomComplexNumber(float min, float max)
+        {
+            float[] pair = RandomPair(min, max);
+
+            ComplexNumber result = ComplexNumber.ComplexFromArray(pair);
+
+            return result;
+
+        }
+
+        public static ComplexNumber RandomComplexNumber(float a)
+        {
+            float[] pair = RandomPair(a);
+
+
+            ComplexNumber result = ComplexNumber.ComplexFromArray(pair);
+
+            return result;
+
+        }
 
     }
 
