@@ -15,8 +15,6 @@ namespace ComplexNumbers
         public Polynomial(ComplexNumber[] c)
         {
 
-            //this.z = z;
-
             this.c = c;
 
             this.n = c.Length-1;
@@ -26,7 +24,6 @@ namespace ComplexNumbers
         public static Polynomial RealPolynomial(float x, float[] a)
         {
 
-            //ComplexNumber z = ComplexNumber.Complexify(x);
 
             ComplexNumber[] c = ComplexNumber.ComplexifyArray(a);
 
@@ -197,6 +194,225 @@ namespace ComplexNumbers
         }
 
 
+        public static Polynomial Derivative(Polynomial P)
+        {
+            int n = P.n;
+
+            ComplexNumber[] p = new ComplexNumber[n];
+
+            for(int i = 0; i < n; i++)
+            {
+
+                p[i] = (i + 1) * P.c[i + 1];
+            }
+
+
+            return new Polynomial(p);
+        }
+
+        public static Polynomial AntiDerivative(Polynomial P)
+        {
+            int n = P.n;
+
+            ComplexNumber[] p = new ComplexNumber[n+1];
+
+            p[0] = new ComplexNumber(0, 0);
+
+
+            for (int i = 1; i < n+2; i++)
+            {
+
+                p[i] = P.c[i - 1]/(i);
+            }
+
+
+            return new Polynomial(p);
+        }
+
+
+        public static Polynomial Negative(Polynomial P)
+        {
+
+            int n = P.n;
+
+            ComplexNumber[] p = new ComplexNumber[n + 1];
+
+            for(int i = 0; i < n + 1; i++)
+            {
+
+                p[i] = -P.c[i];
+            }
+
+
+            return new Polynomial(p);
+
+        }
+
+
+        public static int GreaterN(Polynomial P1, Polynomial P2)
+        {
+            return Mathf.Max(P1.n, P2.n);
+
+        }
+
+        public static int LesserN(Polynomial P1, Polynomial P2)
+        {
+            return Mathf.Min(P1.n, P2.n);
+
+        }
+
+        public static ComplexNumber[] LongerArray(Polynomial P1, Polynomial P2)
+        {
+
+            return GreaterN(P1,P2) == P1.n ? P1.c : P2.c;
+        }
+
+
+
+        public static Polynomial PolynomialAddition(Polynomial P1, Polynomial P2)
+        {
+
+            int m = Mathf.Min(P1.n, P2.n);
+
+            int n = Mathf.Max(P1.n, P2.n);
+
+            ComplexNumber[] longerArray = n == P1.n ? P1.c : P2.c;
+
+
+            ComplexNumber[] p = new ComplexNumber[n + 1];
+
+            for (int i = 0; i <= m; i++)
+            {
+
+                p[i] = P1.c[i] + P2.c[i];
+            }
+
+
+            for (int i = m + 1; i < n + 1; i++)
+            {
+
+                p[i] = longerArray[i];
+            }
+
+            return new Polynomial(p);
+        }
+
+
+        public static Polynomial PolynomialAddition(Polynomial P, float c)
+        {
+
+
+            int n = P.n;
+
+        
+
+            ComplexNumber[] p = new ComplexNumber[n + 1];
+
+            p[0] = P.c[0] + c;
+
+            for(int i = 1; i < n + 1; i++)
+            {
+
+                p[i] = P.c[i];
+            }
+
+
+            return new Polynomial(p);
+        }
+
+
+        //public static Polynomial ProductPolynomial(Polynomial P1, Polynomial P2)
+        //{
+
+
+        //}
+
+
+        //Operator Overloads:
+        public static Polynomial operator +(Polynomial operand) => operand;
+
+        public static Polynomial operator +(Polynomial first, Polynomial second) =>
+            PolynomialAddition(first, second);
+
+        public static Polynomial operator +(Polynomial P, float c) =>
+            PolynomialAddition(P, c);
+
+
+        public static Polynomial operator +( float c,Polynomial P) =>
+        PolynomialAddition(P,c);
+
+
+        public static Polynomial operator +(Polynomial P, int i) =>
+        PolynomialAddition(P, (float)i);
+
+
+        public static Polynomial operator +( int i, Polynomial P) =>
+        PolynomialAddition(P, (float)i);
+
+
+
+        public static Polynomial operator -(Polynomial operand) => operand;
+
+        public static Polynomial operator -(Polynomial first, Polynomial second) =>
+            PolynomialAddition(first, Negative(second));
+
+        public static Polynomial operator -(Polynomial P, float c) =>
+            PolynomialAddition(P, -c);
+
+        public static Polynomial operator -( float c, Polynomial P) =>
+          PolynomialAddition(Negative(P), c);
+
+
+        public static Polynomial operator -(Polynomial P, int i) =>
+          PolynomialAddition(P, -(float)i);
+
+        public static Polynomial operator -(int i, Polynomial P) =>
+          PolynomialAddition(Negative(P), (float)i);
+
+
+        //Equality Override:
+        public override bool Equals(object P)
+        {
+            if (P == null)
+            {
+                return false;
+            }
+
+            var z = (Polynomial)P;
+
+
+            return ( c == z.c);
+          
+         
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+
+        public static bool PolynomialEquality(Polynomial P1, Polynomial P2)
+        {
+
+            return (P1.c == P2.c);
+
+        }
+
+
+        public static bool operator ==(Polynomial P1, Polynomial P2)
+        {
+            return PolynomialEquality(P1, P2);
+
+        }
+
+        public static bool operator !=(Polynomial P1, Polynomial P2)
+        {
+            return !PolynomialEquality(P1, P2);
+
+
+        }
+
 
     }
 
@@ -238,6 +454,7 @@ namespace ComplexNumbers
         }
 
     }
+
 
 
 }
