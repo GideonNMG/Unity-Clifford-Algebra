@@ -70,7 +70,7 @@ namespace MatrixMath
         public static Metric MinkowskiMetric()
         {        
 
-            Metric result = new Metric(ConstantMatrices.Minkowski());
+            Metric result = new Metric(StaticMatrices.Minkowski());
 
             return result;
         }

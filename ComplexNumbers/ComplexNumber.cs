@@ -33,7 +33,6 @@ namespace ComplexNumbers
 
 
 
-
         //Complex Operations:
 
         public static ComplexNumber ComplexFromArray(float[] array)
@@ -105,7 +104,9 @@ namespace ComplexNumbers
         }
 
 
+       
 
+        //Returns the Argand angle in radians.
         public static float Arg(ComplexNumber z)
         {
             float result;
@@ -155,6 +156,16 @@ namespace ComplexNumbers
 
             return result;
 
+        }
+        //Returns the Argand angle in degrees.
+        public static float ArgDegrees(ComplexNumber z)
+        {
+
+            float r = Arg(z);
+
+            float result = StaticFunctions.DegreesFromRads(r);
+
+            return result;
         }
 
         public static ComplexNumber Log(ComplexNumber z)
@@ -408,7 +419,7 @@ namespace ComplexNumbers
 
 
 
-        public static ComplexNumber operator -(ComplexNumber operand) => operand;
+        //public static ComplexNumber operator -(ComplexNumber operand) => operand;
 
         public static ComplexNumber operator -(ComplexNumber first, ComplexNumber second) =>
             new ComplexNumber(first.real - second.real, first.imaginary - second.imaginary);
@@ -425,6 +436,11 @@ namespace ComplexNumbers
 
         public static ComplexNumber operator -(int i, ComplexNumber z) =>
         new ComplexNumber((float)i - z.real, -z.imaginary);
+
+        public static ComplexNumber operator -(ComplexNumber z) =>
+            new ComplexNumber(-1 * z.real, -1 * z.imaginary);
+
+
 
 
         public static ComplexNumber operator *(ComplexNumber first, ComplexNumber second) =>
@@ -464,7 +480,8 @@ namespace ComplexNumbers
         new ComplexNumber((top * Conjugate(bottom)).real / Modulus(bottom),
         (top * Conjugate(bottom)).imaginary / Modulus(bottom));
 
-
+      
+            
 
 
         //Equality Override:
@@ -515,6 +532,7 @@ namespace ComplexNumbers
 
         }
 
+      
         //Random ComplexNumbers:
 
         public static float[] RandomPair(float min, float max)

@@ -450,11 +450,6 @@ namespace ComplexNumbers
 
 
 
-
-
-
-
-
         //Equality Override:
         public override bool Equals(object P)
         {

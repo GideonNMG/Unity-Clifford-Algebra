@@ -1,0 +1,17 @@
+{
+    "name": "CliffordAlgebra",
+    "rootNamespace": "",
+    "references": [
+        "GUID:04d4623f62c8a42c2bbde75bfd495b1a",
+        "GUID:83dcae2bbb26e4043af357831d34fcb2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MatrixMath;
+using ComplexNumbers;
 
 namespace Clifford.Algebra
 {
@@ -41,7 +42,7 @@ namespace Clifford.Algebra
 
             int[] binomial = new int[n + 1];
 
-            binomial = MathUtilities.BinomialCoefficients(n);
+            binomial = StaticFunctions.BinomialCoefficients(n);
 
             int result = 0;
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using MatrixMath;
+using ComplexNumbers;
 
 namespace Clifford.Algebra
 {
@@ -84,7 +85,7 @@ namespace Clifford.Algebra
 
             float[] basis = new float[n + 1];
 
-            int[] binomial = MathUtilities.BinomialCoefficients(n);
+            int[] binomial = StaticFunctions.BinomialCoefficients(n);
 
             grade = BladeUtilities.GradeFromIndex(index, n);
 
@@ -104,7 +105,7 @@ namespace Clifford.Algebra
             {
                 basis = ArrayUtilities.SetAllOne(n + 1);
 
-                basis[binomial[n - 1] - (index + 1 - (MathUtilities.BinomialPartialSum(n, n - 2)))] = 0;
+                basis[binomial[n - 1] - (index + 1 - (StaticFunctions.BinomialPartialSum(n, n - 2)))] = 0;
 
                 return basis;
             }
@@ -288,19 +289,19 @@ namespace Clifford.Algebra
         {
        
 
-           return  MathUtilities.BinomialCoefficient(i, j);
+           return  StaticFunctions.BinomialCoefficient(i, j);
 
         }
 
         private static int PS(int n, int m)
         {
-            return MathUtilities.BinomialPartialSum(n, m);
+            return StaticFunctions.BinomialPartialSum(n, m);
         }
 
         private static int DPS(int n, int m, int j)
         {
 
-            return MathUtilities.DescendingPartialSum(n, m, j);
+            return StaticFunctions.DescendingPartialSum(n, m, j);
 
         }
   

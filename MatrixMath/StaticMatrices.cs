@@ -4,17 +4,8 @@ using System.Collections;
 
 namespace MatrixMath
 {
-    public static class ConstantMatrices
+    public static class StaticMatrices
     {
-        public static float[,] Fibonacci()
-        {
-            float[,] A = MatrixUtilities.SetAllOne(2);
-
-            A[1, 1] = 0;
-
-            return A;
-        }
-
 
         public static float[,] Rotation2D(float theta)
         {
@@ -73,23 +64,15 @@ namespace MatrixMath
 
         }
 
-        public static float [,] Id(int n)
+
+        public static float[,] Id(int n)
         {
 
             return MatrixUtilities.DiagonalOnes(n);
         }
 
-        public static float[,] Id2()
-        {
 
-            return Id(2);
-        }
-
-        public static float[,] Id3()
-        {
-
-            return Id(3);
-        }
+   
 
 
         public static float[,] Minkowski()
@@ -102,9 +85,60 @@ namespace MatrixMath
             return result;
         }
 
+
+        public static float[,] Diagonal(float[] a)
+        {
+
+            int n = a.Length;
+
+            float[,] result = MatrixUtilities.SetAllZero(n);
+
+            for(int i = 0; i < n; i++)
+            {
+
+                result[i, i] = a[i];
+            }
+
+            return result;
+
+        }
+
+
+        public static float[,] Reflection3D(Vector3 N)
+        {
+
+            float l = Mathf.Sqrt(Vector3.Dot(N, N));
+
+            Vector3 n = new Vector3(N.x / l, N.y / l, N.z / l);
+
+            float[,] result = new float[3, 3];
+
+            result[0, 0] = 1 -2* (n.x * n.x);
+
+            result[0, 1] = - 2 *(n.x * n.y);
+
+            result[0, 2] = - 2 * (n.x * n.z);
+
+            result[1, 0] = -2 * (n.y * n.x);
+
+            result[1, 1] = 1 -2 * (n.y * n.y);
+
+            result[1, 2] = -2 * (n.y * n.z);
+
+            result[2, 0] = -2 * (n.z * n.x);
+
+            result[2, 1] = -2 * (n.z * n.y);
+
+            result[2, 2] = 1 - 2 * (n.z * n.z);
+
+
+            return result;
+
+
+        }
+
+
     }
 
 
 }
-
-
