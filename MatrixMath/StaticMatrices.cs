@@ -137,6 +137,77 @@ namespace MatrixMath
 
         }
 
+        public static float[,] Shear2DX(float s)
+        {
+
+
+            float[,] result =  MatrixUtilities.DiagonalOnes(2);
+
+            result[0, 1] = s;
+
+            return result;
+
+        }
+
+        public static float[,] Shear2DY(float s)
+        {
+
+
+            float[,] result = MatrixUtilities.DiagonalOnes(2);
+
+            result[1, 0] = s;
+
+            return result;
+
+        }
+
+
+        public static float[,] Shear3DX(float sy, float sz)
+        {
+
+
+            float[,] result = MatrixUtilities.DiagonalOnes(3);
+
+            result[1, 0] = sy;
+
+            result[2, 0] = sz;
+
+
+            return result;
+
+        }
+
+        public static float[,] Shear3DY(float sx, float sz)
+        {
+
+
+            float[,] result = MatrixUtilities.DiagonalOnes(3);
+
+            result[0, 1] = sx;
+
+            result[2, 1] = sz;
+
+
+            return result;
+
+        }
+
+        public static float[,] Shear3DZ(float sx, float sy)
+        {
+
+
+            float[,] result = MatrixUtilities.DiagonalOnes(3);
+
+            result[0, 2] = sx;
+
+            result[1, 2] = sy;
+
+
+            return result;
+
+        }
+
+
 
     }
 

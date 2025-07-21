@@ -16,7 +16,17 @@ namespace KalendColor
         [Range(0, 1)]
         public float a;
 
+
+        public float h;
+
+        public float s;
+
+        public float v;
+
+
         public float[] kolor;
+
+        public float[] hsv;
 
 
         public Kolor4(float r, float g, float b, float a)
@@ -30,8 +40,171 @@ namespace KalendColor
 
             this.a = a;
 
-            this.kolor = new float[4] { r,g,b,a};
-          
+            Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+            this.kolor = new float[4] { r, g, b, a};
+
+            this.hsv = new float[3] { h, s, v };
+
+        }
+
+
+        public Kolor4(float r, float g, float b)
+        {
+
+            this.r = r;
+
+            this.g = g;
+
+            this.b = b;
+
+            this.a = 1f;
+
+            Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+            this.kolor = new float[4] { r, g, b, a };
+
+            this.hsv = new float[3] { h, s, v };
+
+        }
+
+
+        public Kolor4(Vector4 V)
+        {
+
+            this.r = V.x;
+
+            this.g = V.y;
+
+            this.b = V.z;
+
+            this.a = V.w;
+
+            Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+            this.kolor = new float[4] { r, g, b, a };
+
+            this.hsv = new float[3] { h, s, v };
+
+        }
+
+
+        public Kolor4(Vector3 V)
+        {
+
+            this.r = V.x;
+
+            this.g = V.y;
+
+            this.b = V.z;
+
+            this.a = 1f;
+
+            Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+            this.kolor = new float[4] { r, g, b, a };
+
+            this.hsv = new float[3] { h, s, v };
+
+        }
+
+
+
+        public Kolor4(float[] A)
+        {
+            int n = A.Length;
+
+           
+            this.r = A[0];
+
+            this.g = A[1];
+
+            this.b = A[2];
+
+            if (n > 3)
+            {
+
+                this.a = A[3];
+            }
+
+            else
+            {
+
+                this.a = 1f;
+            }
+
+            Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+            this.kolor = new float[4] { r, g, b, a };
+
+            this.hsv = new float[3] { h, s, v };
+
+        }
+
+
+
+        public Kolor4(float[] A, bool isHSV)
+        {
+            int n = A.Length;
+
+            
+
+            if(n==4 && isHSV)
+            {
+
+                this.h = A[0];
+
+                this.s = A[1];
+
+                this.v = A[2];
+
+                this.hsv = A;
+
+                Color color = Color.HSVToRGB(A[0], A[1], A[2]);
+
+                this.r = color.r;
+
+                this.g = color.g;
+
+                this.b = color.b;
+
+                this.a = 1;
+
+                this.kolor = new float[4] { r, g, b, 1f };
+
+           
+
+            }
+
+            else
+            {
+                this.r = A[0];
+
+                this.g = A[1];
+
+                this.b = A[2];
+
+                if (n > 3)
+                {
+
+                    this.a = A[3];
+                }
+
+                else
+                {
+
+                    this.a = 1f;
+                }
+
+                Color.RGBToHSV(new Color(r, g, b, a), out h, out s, out v);
+
+                this.kolor = new float[4] { r, g, b, a };
+
+                this.hsv = new float[3] { h, s, v };
+
+            }
+
+
         }
 
 
@@ -74,6 +247,29 @@ namespace KalendColor
         }
 
 
+        public static Kolor4 Kolor4FromHSV(float H, float S, float V)
+        {
+
+            Color color = Color.HSVToRGB(H, S, V);
+
+            
+
+            float r = color.r;
+
+            float g = color.g;
+
+            float b = color.b;
+
+            float a = color.a;
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+
+
         public static Color32 Kolor32(Kolor4 k)
         {
             int r = Mathf.FloorToInt(k.kolor[0] * 255f);
@@ -98,6 +294,7 @@ namespace KalendColor
 
         }
 
+   
 
         public static float[] ClampedArray4(float x, float y, float z, float w)
         {
@@ -147,6 +344,33 @@ namespace KalendColor
             return result;
         }
 
+        public static Kolor4 KolorFromVector4(Vector4 v)
+        {
+            float r = Mathf.Clamp01(v.x);
+            float g = Mathf.Clamp01(v.y);
+            float b = Mathf.Clamp01(v.z);
+            float a = Mathf.Clamp01(v.w);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+        public static Kolor4 KolorFromVector3(Vector3 v)
+        {
+            float r = Mathf.Clamp01(v.x);
+            float g = Mathf.Clamp01(v.y);
+            float b = Mathf.Clamp01(v.z);
+          
+
+            Kolor4 result = new Kolor4(r, g, b, 1f);
+
+            return result;
+
+        }
+
+
         public static Kolor4 Kolor4Addition(Kolor4 x, Kolor4 y)
         {
             float r = Mathf.Clamp01(x.r + y.r);
@@ -159,6 +383,57 @@ namespace KalendColor
             return result;
 
         }
+
+        public static Kolor4 Kolor4Addition(Kolor4 k, float f)
+        {
+            float r = Mathf.Clamp01(k.r + f);
+            float g = Mathf.Clamp01(k.g + f);
+            float b = Mathf.Clamp01(k.b + f);
+            float a = Mathf.Clamp01(k.a);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+
+        public static Kolor4 KolorAddInt(Kolor4 k, int i)
+        {
+            int j = Mathf.Clamp(i, 0, 255);
+
+            float x = (float)j / 255f;
+
+            float r = Mathf.Clamp01(k.r + x);
+            float g = Mathf.Clamp01(k.g + x);
+            float b = Mathf.Clamp01(k.b + x);
+            float a = Mathf.Clamp01(k.a);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+
+
+        public static Kolor4 Kolor4AddExp(Kolor4 k, float f)
+        {
+
+            float x = 1 - Mathf.Exp(-1 * Mathf.Abs(f));
+
+            float r = Mathf.Clamp01(k.r + x);
+            float g = Mathf.Clamp01(k.g + x);
+            float b = Mathf.Clamp01(k.b + x);
+            float a = Mathf.Clamp01(k.a);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+
 
         public static Kolor4 Kolor4Subtraction(Kolor4 x, Kolor4 y)
         {
@@ -173,6 +448,7 @@ namespace KalendColor
 
         }
 
+
         public static Kolor4 Kolor4Mult(Kolor4 x, Kolor4 y)
         {
             float r = Mathf.Clamp01(x.r * y.r);
@@ -185,6 +461,7 @@ namespace KalendColor
             return result;
 
         }
+
 
         public static Kolor4 Kolor4Mult(Kolor4 k, float f)
         {
@@ -202,6 +479,7 @@ namespace KalendColor
 
         }
 
+
         public static Kolor4 Kolor4AlphaMult(Kolor4 k, float f)
         {
 
@@ -210,6 +488,34 @@ namespace KalendColor
             float a = Mathf.Clamp01(f* k.a);
 
             Kolor4 result = new Kolor4(k.r, k.g, k.b, a);
+
+            return result;
+
+        }
+
+
+        public static Kolor4 Kolor4Min(Kolor4 x, Kolor4 y)
+        {
+            float r = Mathf.Min(x.r, y.r);
+            float g = Mathf.Min(x.g, y.g);
+            float b = Mathf.Min(x.b, y.b);
+            float a = Mathf.Min(x.a, y.a);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
+
+            return result;
+
+        }
+
+
+        public static Kolor4 Kolor4Max(Kolor4 x, Kolor4 y)
+        {
+            float r = Mathf.Max(x.r, y.r);
+            float g = Mathf.Max(x.g, y.g);
+            float b = Mathf.Max(x.b, y.b);
+            float a = Mathf.Max(x.a, y.a);
+
+            Kolor4 result = new Kolor4(r, g, b, a);
 
             return result;
 
@@ -272,6 +578,7 @@ namespace KalendColor
             return result;
         }
 
+
         public static Kolor4 Kolor4AAv(Kolor4 x, Kolor4 y)
         {
             float r = Mathf.Clamp01((x.r + y.r)/2f);
@@ -284,6 +591,7 @@ namespace KalendColor
             return result;
 
         }
+
 
         public static Kolor4 KolorGAv(Kolor4 x, Kolor4 y)
         {
@@ -303,8 +611,6 @@ namespace KalendColor
         public static Kolor4 operator +(Kolor4 operand) => operand;
 
        
-
-
         public static Kolor4 operator +(Kolor4 first, Kolor4 second)
         {
             Kolor4 result = Kolor4Addition(first, second);
@@ -314,7 +620,6 @@ namespace KalendColor
         }
 
 
-     
 
         public static Kolor4 operator -(Kolor4 first, Kolor4 second)
         {
