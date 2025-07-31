@@ -138,7 +138,17 @@ namespace MatrixMath
 
             return RecursiveDet(matrix);
 
-        }      
+        }
+
+
+        public static float Determinant(SquareMatrix A)
+        {
+
+            float[,] matrix = A.M;
+
+            return RecursiveDet(matrix);
+
+        }
 
     }
 

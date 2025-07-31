@@ -104,6 +104,64 @@ namespace MatrixMath
         }
 
 
+
+        public static float[,] Diagonal(Vector2 V)
+        {
+
+            int n = 2;
+
+            float[,] result = MatrixUtilities.SetAllZero(2);
+
+
+            result[0, 0] = V.x;
+
+            result[1, 1] = V.y;
+
+            return result;
+
+        }
+
+
+        public static float[,] Diagonal(Vector3 V)
+        {
+
+            int n = 3;
+
+            float[,] result = MatrixUtilities.SetAllZero(3);
+
+
+            result[0, 0] = V.x;
+
+            result[1, 1] = V.y;
+
+            result[2, 2] = V.z;
+
+            return result;
+
+        }
+
+
+        public static float[,] Diagonal(Vector4 V)
+        {
+
+            int n = 4;
+
+            float[,] result = MatrixUtilities.SetAllZero(4);
+
+
+            result[0, 0] = V.x;
+
+            result[1, 1] = V.y;
+
+            result[2, 2] = V.z;
+
+            result[3, 3] = V.w;
+
+            return result;
+
+        }
+
+
         public static float[,] Reflection3D(Vector3 N)
         {
 

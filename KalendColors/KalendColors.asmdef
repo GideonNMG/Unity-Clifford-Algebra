@@ -1,0 +1,16 @@
+{
+    "name": "KalendColors",
+    "rootNamespace": "KalendColors",
+    "references": [
+        "GUID:04d4623f62c8a42c2bbde75bfd495b1a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

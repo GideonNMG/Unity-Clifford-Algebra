@@ -92,6 +92,16 @@ namespace MatrixMath
             return result;
         }
 
+
+
+        public static float Trace(SquareMatrix A)
+        {
+
+            return Trace(A.M);
+        }
+
+
+
         // This is a "cheat" in that we can use a (1D) array to represent a diagonal matrix and this finds the "trace" of such a "matrix."
         public static float Trace(float[] array)
         {
@@ -152,8 +162,9 @@ namespace MatrixMath
         }
 
 
+
         //Checks to see if two matrices can be multiplied, i.e., if the first has as many columns as the second has rows. 
-        static bool Compatible(float[,] A, float[,] B)
+        public static bool Compatible(float[,] A, float[,] B)
         {
 
             if (A.GetLength(1) == B.GetLength(0))
@@ -166,8 +177,23 @@ namespace MatrixMath
                 return false;
             }
         }
-       
-      
+
+
+        public static float Det(float[,] A)
+        {
+
+            return MatrixOperations.Determinant(A);
+        }
+
+
+        public static float Det(SquareMatrix A)
+        {
+
+            return MatrixOperations.Determinant(A);
+        }
+
+
 
     }
+
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace KalendColor
+namespace KalendColors
 {
     public struct Kolor4
     {
