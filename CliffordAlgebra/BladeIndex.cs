@@ -74,7 +74,8 @@ namespace Clifford.Algebra
                     ones++;
                     i++;
                     n--;
-                    index--;
+                    g--;
+                    //index--;
 
                     GetBasisFromIndex(index, n, g, i, basis);
 
@@ -84,9 +85,10 @@ namespace Clifford.Algebra
                 else
                 {
                     i++;
+                    index -= SafeBC(n-1, g - 1);
                     n--;
-                    index--;
-                  
+
+
                     GetBasisFromIndex(index, n, g, i, basis);
                 }
 
@@ -172,6 +174,24 @@ namespace Clifford.Algebra
 
 
         /*
+         
+         * example n = 4
+
+            basis   grade 
+
+            1       0    10000                                         (0)                      
+
+            4       1    11000  10100 10010  10001                  (1,2,3,4)
+
+            6       2    11100  11010 11001 10110 10101 10011     (5,6,7,8,9,10)
+                          12     1 3   1  4   23    2  4   34
+
+            4       3    11110  11101 11011 10111                  (11,12,13,14)
+
+            1       4    11111                                         (15)                                         
+
+
+
         example n = 5
 
         basis   grade 
