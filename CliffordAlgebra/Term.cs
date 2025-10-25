@@ -21,90 +21,113 @@ namespace Clifford.Algebra
 
 
         //Term Operations:
+
         public static Term BladeProduct(Blade left, Blade right, Metric metric)
         {
-            int n = metric.matrix.GetLength(0);
 
-            float[] basis = new float[n + 1];
+            int l = Blade.NonnullCount(left);
+            int r = Blade.NonnullCount(right);
 
-            basis[0] = 1;
+            int M = Mathf.Min(left.n, right.n);
 
-            float scalar = 1f;
+            int k = l;   
 
-            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.BladeParity(right);
+            Blade contraction = Blade.Contraction(left, right);
 
-            float productParity = (float)BladeUtilities.BladeProductParity(left, right);
+            float scalar = (float)left.basis[0] * (float)right.basis[0];
 
-            scalar *= left.basis[0] * right.basis[0];
-
-            scalar *= parity;
-
-            scalar *= productParity;
-
-            for (int i = 1; i <= n + 1; i++)
-            {
-                float bi = left.basis[i] + right.basis[i];
-
-                if (bi == 2)
+           
+                for(int i = 1; i<=M; i++)
                 {
+                    if (left.basis[i] + right.basis[i] == 2)
+                    {
+
+
+                    k--;
+
+                    scalar *= Mathf.Pow(-1, k);
+
                     scalar *= metric.matrix[i - 1, i - 1];
 
-                }
 
 
-                else
-                {
-                    basis[i] = bi;
 
-                }
+                    }
+
+                    else if(left.basis[i] ==1 && right.basis[i] == 0)
+                    {
+                    scalar *= Mathf.Pow(-1, k-1);
+
+                    }
+
+                    else if (left.basis[i] == 0 && right.basis[i] == 1)
+                    {
+
+                    k++;
+
+                    }
+
 
             }
 
 
-            Blade product = new Blade(basis);
-
-            Term result = new Term(scalar, product);
+            Term result = new Term(scalar, contraction);
 
             return result;
+
 
         }
 
 
-        public static Term BladeProduct(Blade left, Blade right)  //If no metric is explcicity required, the metric is assumed to be Euclidean. 
+        public static Term BladeProduct(Blade left, Blade right)//If no metric is specified, a Euclidean metric is assumed. 
         {
-            int n = left.basis.Length - 1;
 
-            float[] basis = new float[n + 1];
+            int l = Blade.NonnullCount(left);
+            int r = Blade.NonnullCount(right);
 
-            basis[0] = 1;
+            int M = Mathf.Min(left.n, right.n);
 
-            float scalar = 1f;
+            int k = l;
 
-            float parity = (float)BladeUtilities.BladeParity(left) * (float)BladeUtilities.BladeParity(right);
+            Blade contraction = Blade.Contraction(left, right);
 
-            float productParity = (float)BladeUtilities.BladeProductParity(left, right);
+            float scalar = (float)left.basis[0] * (float)right.basis[0];
 
-            scalar *= left.basis[0] * right.basis[0];
 
-            scalar *= parity;
-
-            scalar *= productParity;
-
-            for (int i = 1; i <= n + 1; i++)
+            for (int i = 1; i <= M; i++)
             {
-                float bi = left.basis[i] + right.basis[i];
+                if (left.basis[i] + right.basis[i] == 2)
+                {
 
 
-                basis[i] = bi % 2;
+                    k--;
+
+                    scalar *= Mathf.Pow(-1, k);
+
+
+                }
+
+                else if (left.basis[i] == 1 && right.basis[i] == 0)
+                {
+                    scalar *= Mathf.Pow(-1, k - 1);
+
+                }
+
+                else if (left.basis[i] == 0 && right.basis[i] == 1)
+                {
+
+                    k++;
+
+                }
+
 
             }
 
 
-            Blade product = new Blade(basis);
-
-            Term result = new Term(scalar, product);
+            Term result = new Term(scalar, contraction);
 
             return result;
+
 
         }
 
@@ -140,11 +163,11 @@ namespace Clifford.Algebra
         public static Term HodgeStarDual(Term term)
         {
 
-            float[] basis = term.blade.basis;
+            int[] basis = term.blade.basis;
 
-            float[] dualBasis = BladeUtilities.Dual(basis);
+            int[] dualBasis = Blade.Dual(basis);
 
-            int[] hodgeIndecies = BladeUtilities.BladeDualIndices(basis, dualBasis);
+            int[] hodgeIndecies = Blade.BladeDualIndices(basis, dualBasis);
 
             float parity = (float)MathUtilities.CheckPermutation(hodgeIndecies);
 
@@ -178,7 +201,7 @@ namespace Clifford.Algebra
 
             float result = product.scalar;
 
-            result *= BladeUtilities.BladeParity(product.blade);
+            result *= Blade.BladeParity(product.blade);
 
             return result;
 
@@ -192,7 +215,7 @@ namespace Clifford.Algebra
 
             float result = product.scalar;
 
-            result *= BladeUtilities.BladeParity(product.blade);
+            result *= Blade.BladeParity(product.blade);
 
             return result;
 

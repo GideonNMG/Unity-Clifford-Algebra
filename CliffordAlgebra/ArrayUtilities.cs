@@ -24,9 +24,27 @@ namespace Clifford.Algebra
 
         }
 
-        public static float[] SetAllOne(int n)
+        public static int[] Mod2Array(int[] array)
         {
-            float[] result = new float[n];
+            int n = array.Length;
+
+            int[] result = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+
+                result[i] = (array[i]) % 2;
+            }
+
+
+            return result;
+
+        }
+
+
+        public static int[] SetAllOne(int n)
+        {
+            int[] result = new int[n];
 
             for (int i = 0; i < n; i++)
             {
@@ -37,9 +55,9 @@ namespace Clifford.Algebra
             return result;
         }
 
-        public static float[] SetAllOne(int n, int k)
+        public static int[] SetAllOne(int n, int k)
         {
-            float[] result = new float[n];
+            int[] result = new int[n];
 
             for (int i = 0; i < n; i++)
             {
@@ -61,9 +79,9 @@ namespace Clifford.Algebra
             return result;
         }
 
-        public static float[] SetAllZero(int n)
+        public static int[] SetAllZero(int n)
         {
-            float[] result = new float[n];
+            int[] result = new int[n];
 
             for (int i = 0; i < n; i++)
             {
@@ -75,9 +93,11 @@ namespace Clifford.Algebra
         }
 
 
-        public static float[] SetAllZero(int n, int k)
+ 
+
+        public static int[] SetAllZero(int n, int k)
         {
-            float[] result = new float[n];
+            int[] result = new int[n];
 
             for (int i = 0; i < n; i++)
             {

@@ -80,8 +80,27 @@ namespace ComplexNumbers
 
         }
 
+        public static int SafeBinomialCoefficient(int n, int m)
+        {
 
-        public static int[] BinomialCoefficients(int n)
+            int result = 1;
+
+            if (n <= 0 || m <= 0)
+            {
+                return 1;
+            }
+
+            else
+            {
+                result = BinomialCoefficient(n, m);
+
+            }
+
+            return result;
+        }
+
+
+       public static int[] BinomialCoefficients(int n)
         {
 
             int[] result = new int[n + 1];
@@ -161,6 +180,8 @@ namespace ComplexNumbers
             return DescendingPartialSum(max, min, max - min);
         }
 
+
+       
 
         public static float DegreesFromRads(float r)
         {

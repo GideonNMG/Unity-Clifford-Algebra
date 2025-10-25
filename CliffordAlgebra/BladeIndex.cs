@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using MatrixMath;
 using ComplexNumbers;
 
@@ -19,27 +20,61 @@ namespace Clifford.Algebra
         private static int r;     
     
 
-        public static float[] GetBasisFromIndex(int index, int n, int g, int i, float[] basis)
+
+        public static int[] GradeZeroBasis(int n)
+        {
+            int[] result = ArrayUtilities.SetAllZero(n + 1, 1);
+
+            return result;
+
+        }
+
+        public static int[] GradeOneoBasis(int index, int n)
+        {
+            int[] result = ArrayUtilities.SetAllZero(n + 1, 1);
+
+            result[index] = 1;
+
+            return result;
+
+        }
+
+        public static int[] GradeNBasis(int n)
+        {
+            int[] result = ArrayUtilities.SetAllOne(n +1);
+
+            return result;
+
+        }
+
+
+        public static int[] GetBasisFromIndex(int index, int n, int g, int i, int[] basis)
         {
 
-            if (ones == grade || n <1)
+
+            if (ones == grade||n==0||g==0)
+
             {
 
                 return basis;
             }
 
+         
 
+            
             else
             {
 
-                n--;
-                g--;
-                if (index < BC(n, g))
+                    
+
+                if (index <=SafeBC(n-1, g-1) )
                 {
 
                     basis[i] = 1;
                     ones++;
                     i++;
+                    n--;
+                    index--;
 
                     GetBasisFromIndex(index, n, g, i, basis);
 
@@ -48,8 +83,10 @@ namespace Clifford.Algebra
 
                 else
                 {
-                    n--;
                     i++;
+                    n--;
+                    index--;
+                  
                     GetBasisFromIndex(index, n, g, i, basis);
                 }
 
@@ -59,7 +96,7 @@ namespace Clifford.Algebra
             return basis;
         }
 
-        public static float[] BasisFromIndex(int index, int n)
+        public static int[] BasisFromIndex(int index, int n) // n = space dimension; algebra dimension =  2^{n};  0 <= index < 2^{n} 
         {
 
             /*
@@ -81,13 +118,17 @@ namespace Clifford.Algebra
 
             */
 
+
+
+  
+
             ones = 0;
 
-            float[] basis = new float[n + 1];
+            int[] basis = new int[n + 1];
 
             int[] binomial = StaticFunctions.BinomialCoefficients(n);
 
-            grade = BladeUtilities.GradeFromIndex(index, n);
+            grade = Blade.GradeFromIndex(index, n);
 
             basis = ArrayUtilities.SetAllZero(n + 1, 1);
 
@@ -105,7 +146,9 @@ namespace Clifford.Algebra
             {
                 basis = ArrayUtilities.SetAllOne(n + 1);
 
-                basis[binomial[n - 1] - (index + 1 - (StaticFunctions.BinomialPartialSum(n, n - 2)))] = 0;
+                int m = (int)Mathf.Pow(2, n) - 1 - index;
+
+                basis[m] = 0;
 
                 return basis;
             }
@@ -169,7 +212,7 @@ namespace Clifford.Algebra
         public static Blade BladeFromIndex(int index, int n)
         {
 
-            float[] basis = BasisFromIndex(index, n);
+            int[] basis = BasisFromIndex(index, n);
 
 
             Blade blade = new Blade(basis);
@@ -187,7 +230,7 @@ namespace Clifford.Algebra
         }
 
 
-        public static int Index(float[] basis)
+        public static int Index(int[] basis)
         {
 
             return ArrayIndex(basis);
@@ -195,13 +238,13 @@ namespace Clifford.Algebra
         }
 
 
-        public static int ArrayIndex(float[] array)
+        public static int ArrayIndex(int[] array)
         {
 
 
             q = array.Length;  // == slots left
 
-            r = BladeUtilities.Grade(array); // == ones left
+            r = Blade.Grade(array); // == ones left
 
             Checki(array, l);
 
@@ -210,7 +253,7 @@ namespace Clifford.Algebra
         }
 
 
-        private static void Checki(float[] b, int i)
+        private static void Checki(int[] b, int i)
         {
 
 
@@ -232,14 +275,14 @@ namespace Clifford.Algebra
 
 
 
-        private static void ArrayiOne(float[] array)
+        private static void ArrayiOne(int[] array)
         {
 
             q--;
 
             r--;
 
-            if (BC(q,r) == 1)
+            if (BC(q,r) == 1|| q==0||r==0)
             {
 
                 return;
@@ -257,18 +300,19 @@ namespace Clifford.Algebra
         }
 
 
-        private static void ArrayiZero(float[] array)
+        private static void ArrayiZero(int[] array)
         {
 
             q--;
 
             r--;
 
+
             k += BC(q, r);
 
             r++;
 
-            if(BC(q,r) == 1)
+            if (BC(q, r) == 1 || q == 0 || r == 0)
             {
                 return;
 
@@ -304,7 +348,78 @@ namespace Clifford.Algebra
             return StaticFunctions.DescendingPartialSum(n, m, j);
 
         }
-  
+
+        private static int SafeBC(int n, int g)
+        {
+
+
+            int result = StaticFunctions.SafeBinomialCoefficient(n, g);
+
+
+            return result;
+        }
+
+
+        public static string[] BasisStrings(int n)
+        {
+            int N = (int)Mathf.Pow(2, n);
+
+            string[] result = new string[N];
+
+            for(int i = 0; i < N; i++)
+            {
+                result[i] = BasisString(BasisFromIndex(i, n));
+
+            }
+
+            return result;
+        }
+
+        public static int IndexFromBasis(int[] basis)
+        {
+            int n = basis.Length - 1;
+
+            int k =  Array.IndexOf(BasisStrings(n), BasisString(basis));
+
+            return k;
+
+        }
+
+        public static int IndexFromBasis(string basisString)
+        {
+            int n = basisString.Length - 1;
+
+            int k = Array.IndexOf(BasisStrings(n), basisString);
+
+            return k;
+
+        }
+
+
+
+        public static string BasisString(int[] basis)
+        {
+
+            string result = string.Concat(basis.Select(x => x.ToString()));
+
+            //Debug.Log(result);
+
+            return result;
+        }
+
+
+        public static int[] BasisFromString(string s)
+        {
+
+            int[] result = s.Split().Select(int.Parse).ToArray();
+
+            //Debug.Log(s);
+            //Debug.Log(BasisString(result));
+
+            return result;
+
+        }
+
     }
 
 }

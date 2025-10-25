@@ -93,7 +93,7 @@ namespace Clifford.Algebra
 
             for (int i = 0; i < n; i++)
             {
-                if (BladeUtilities.Grade(CA.blades[i]) % 2 == 0)
+                if (Blade.Grade(CA.blades[i]) % 2 == 0)
                 {
 
                     result[k] = CA.blades[i];
@@ -121,7 +121,7 @@ namespace Clifford.Algebra
 
             for (int i = 0; i < n; i++)
             {
-                if (BladeUtilities.Grade(blades[i]) % 2 == 0)
+                if (Blade.Grade(blades[i]) % 2 == 0)
                 {
 
                     result[k] = blades[i];

@@ -19,6 +19,8 @@ namespace KalendColors
 
         public Kolor4 kolor4;
 
+        private bool _kolorSet;
+
 
 #if UNITY_EDITOR
     
@@ -61,33 +63,52 @@ namespace KalendColors
 
             }
 
-            kolor4 = new Kolor4(color.r, color.g, color.b, color.a);
 
-            PrintKolor();
+            SetKolor4();
 
 
         }
 
-      
+
 
 #endif
 
-      public void PrintKolor()
-       {
-
-                Debug.Log(colorName + "<color=red> Kolor4 r = </color>" + kolor4.r );
-                Debug.Log(colorName + "<color=green> Kolor4 g = </color>" + kolor4.g );
-                Debug.Log(colorName + "<color=blue> Kolor4 b = </color>" + kolor4.b ); 
-   
-       }
+    
 
        public void OnEnable()
        {
-         PrintKolor();
+
+
+            if (!_kolorSet)
+            {
+                SetKolor4();
+                PrintKolor();
+
+            }
+        
 
        }
 
 
+        public void SetKolor4()
+        {
+
+            kolor4 = new Kolor4(color.r, color.g, color.b, color.a);
+
+            _kolorSet = true;
+
+            PrintKolor();
+
+        }
+
+        public void PrintKolor()
+        {
+
+            Debug.Log(colorName + "<color=red> Kolor4 r = </color>" + kolor4.r);
+            Debug.Log(colorName + "<color=green> Kolor4 g = </color>" + kolor4.g);
+            Debug.Log(colorName + "<color=blue> Kolor4 b = </color>" + kolor4.b);
+
+        }
 
 
     }
